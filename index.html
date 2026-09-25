@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Sensorium Joyville · Navratri 2026 Control Room</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   CONFIG IS IN THE <script> BLOCK AT THE BOTTOM — SEARCH "CONFIG"
+   ============================================================ */
+
+:root{
+  --ink:#14071F;
+  --night:#1E0A33;
+  --surface:#2A1147;
+  --surface2:#36195C;
+  --line:#4A2A73;
+  --gold:#E9B44C;
+  --marigold:#F2751F;
+  --rani:#E0257A;
+  --peacock:#17A398;
+  --cream:#F6ECD9;
+  --muted:#AE9BCB;
+  --danger:#FF6B6B;
+
+  --r:14px;
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:
+    radial-gradient(1100px 620px at 12% -8%, #3A1360 0%, transparent 62%),
+    radial-gradient(900px 520px at 92% 4%, #52123F 0%, transparent 58%),
+    var(--ink);
+  color:var(--cream);
+  font-family:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size:15px;
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+  font-variant-numeric:tabular-nums;
+}
+.wrap{max-width:1240px;margin:0 auto;padding:26px 20px 70px}
+
+h1,h2,h3{font-family:Marcellus, "Iowan Old Style", Georgia, serif;font-weight:400;margin:0}
+a{color:var(--gold)}
+
+/* ---------- masthead ---------- */
+.masthead{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-end;justify-content:space-between;
+  padding-bottom:16px;border-bottom:1px solid var(--line)}
+.mast-title{font-size:31px;letter-spacing:.3px;line-height:1.15}
+.mast-sub{color:var(--muted);font-size:13.5px;margin-top:5px}
+.mast-right{display:flex;align-items:center;gap:12px}
+.pulse{width:8px;height:8px;border-radius:50%;background:var(--peacock);box-shadow:0 0 0 0 rgba(23,163,152,.65);
+  animation:pulse 2.4s infinite}
+.pulse.stale{background:var(--danger);animation:none}
+.pulse.loading{background:var(--gold);animation:pulse 1s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(23,163,152,.55)}70%{box-shadow:0 0 0 9px rgba(23,163,152,0)}100%{box-shadow:0 0 0 0 rgba(23,163,152,0)}}
+.stamp{font-size:12.5px;color:var(--muted)}
+.btn{background:var(--surface2);color:var(--cream);border:1px solid var(--line);
+  border-radius:9px;padding:8px 14px;font:inherit;font-size:13.5px;cursor:pointer}
+.btn:hover{background:#43217045;border-color:var(--gold)}
+.btn:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+/* ---------- banner ---------- */
+.banner{margin-top:16px;padding:12px 16px;border-radius:var(--r);font-size:14px;
+  border:1px solid var(--line);background:var(--surface);display:none}
+.banner.show{display:block}
+.banner.error{border-color:var(--danger);background:#43121F;color:#FFD9D9}
+.banner code{background:#00000040;padding:2px 6px;border-radius:5px;font-size:12.5px}
+
+/* ---------- hero ---------- */
+.hero{display:grid;grid-template-columns:minmax(300px,380px) 1fr;gap:26px;margin-top:26px;align-items:stretch}
+.ringbox{background:linear-gradient(170deg,var(--surface) 0%, #200D3A 100%);
+  border:1px solid var(--line);border-radius:22px;padding:20px 18px 22px;text-align:center;position:relative;overflow:hidden}
+.ringbox::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(300px 180px at 50% 8%, rgba(233,180,76,.14), transparent 70%)}
+.ring-caption{font-family:Marcellus,serif;font-size:17px;margin-bottom:6px}
+.ring-note{color:var(--muted);font-size:12.5px;margin-top:10px;line-height:1.45}
+
+.ledger{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:6px 22px 18px}
+.ledger-row{display:flex;justify-content:space-between;align-items:baseline;gap:14px;
+  padding:13px 0;border-bottom:1px solid #FFFFFF12}
+.ledger-row:last-of-type{border-bottom:none}
+.ledger-label{color:var(--muted);font-size:13.5px}
+.ledger-val{font-size:21px;font-weight:600;letter-spacing:.2px}
+.ledger-val.big{font-size:27px;font-family:Marcellus,serif;font-weight:400}
+.ledger-val.gold{color:var(--gold)}
+.ledger-val.teal{color:var(--peacock)}
+.ledger-val.marigold{color:var(--marigold)}
+.ledger-val.dim{color:var(--muted);font-weight:400;font-size:17px}
+.callout{margin-top:14px;padding:13px 15px;border-radius:12px;
+  background:linear-gradient(100deg, rgba(224,37,122,.20), rgba(242,117,31,.14));
+  border:1px solid #E0257A55;font-size:14px;line-height:1.55}
+.callout b{color:var(--gold);font-weight:600}
+
+/* ---------- sections ---------- */
+section{margin-top:40px}
+.sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;
+  border-bottom:1px solid var(--line);padding-bottom:9px;margin-bottom:20px}
+.sec-title{font-size:22px}
+.sec-note{color:var(--muted);font-size:13px;text-align:right}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px 18px 20px}
+.panel h3{font-size:17px;margin-bottom:3px}
+.panel .sub{color:var(--muted);font-size:12.5px;margin-bottom:15px}
+
+/* stat tiles */
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:15px 16px 16px}
+.stat .n{font-size:30px;font-family:Marcellus,serif;line-height:1.1}
+.stat .k{color:var(--muted);font-size:13px;margin-top:5px}
+.stat .hint{font-size:12.5px;margin-top:9px;padding-top:9px;border-top:1px solid #FFFFFF12;color:var(--muted)}
+.stat.accent-gold .n{color:var(--gold)}
+.stat.accent-teal .n{color:var(--peacock)}
+.stat.accent-rani .n{color:var(--rani)}
+.stat.accent-marigold .n{color:var(--marigold)}
+
+/* bars */
+.bar-row{display:grid;grid-template-columns:86px 1fr auto;gap:12px;align-items:center;margin-bottom:11px}
+.bar-name{font-size:13.5px;color:var(--cream)}
+.bar-track{height:15px;background:#FFFFFF12;border-radius:8px;overflow:hidden}
+.bar-fill{height:100%;border-radius:8px;transition:width .9s cubic-bezier(.2,.7,.3,1)}
+.bar-val{font-size:13px;color:var(--muted);min-width:82px;text-align:right}
+.bar-row.zero .bar-name,.bar-row.zero .bar-val{color:#8B78A8}
+
+/* readiness */
+.ready-row{display:grid;grid-template-columns:150px 1fr 52px;gap:12px;align-items:center;margin-bottom:10px}
+.ready-label{font-size:13.5px;color:var(--cream)}
+.ready-pct{font-size:13px;text-align:right;color:var(--muted)}
+.verdict{margin-top:16px;padding:13px 15px;border-radius:12px;background:#FFFFFF0C;
+  border-left:3px solid var(--gold);font-size:13.5px;line-height:1.55}
+
+/* split strip */
+.strip{display:flex;height:34px;border-radius:9px;overflow:hidden;margin-bottom:12px;background:#FFFFFF12}
+.strip div{display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:600;color:#1B0A2E}
+.legend{display:flex;flex-wrap:wrap;gap:16px;font-size:13px;color:var(--muted)}
+.dot{width:9px;height:9px;border-radius:2px;display:inline-block;margin-right:7px;vertical-align:1px}
+
+/* tables */
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{padding:11px 14px;text-align:left;border-bottom:1px solid #FFFFFF10;white-space:nowrap}
+th{background:#FFFFFF0A;color:var(--muted);font-weight:500;font-size:12.5px;position:sticky;top:0}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover td{background:#FFFFFF08}
+td.num{text-align:right}
+.tag{display:inline-block;padding:3px 10px;border-radius:99px;font-size:11.5px;font-weight:600;letter-spacing:.2px}
+.tag.confirmed{background:#17A39826;color:#4FD8CB;border:1px solid #17A39855}
+.tag.planned{background:#E9B44C22;color:var(--gold);border:1px solid #E9B44C55}
+.tag.review{background:#E0257A26;color:#FF7FB4;border:1px solid #E0257A55}
+.tag.auto{background:#FFFFFF10;color:var(--muted);border:1px solid #FFFFFF1A}
+.muted{color:var(--muted)}
+.empty{color:#8B78A8;font-style:italic}
+
+/* raw */
+details.raw{margin-top:38px;border:1px solid var(--line);border-radius:var(--r);background:var(--surface);padding:0}
+details.raw summary{padding:14px 18px;cursor:pointer;font-size:14px;color:var(--muted)}
+details.raw summary:focus-visible{outline:2px solid var(--gold);outline-offset:-2px}
+details.raw[open] summary{border-bottom:1px solid var(--line);color:var(--cream)}
+.rawinner{padding:0;overflow-x:auto}
+.rawinner table td{white-space:nowrap;font-size:12.5px}
+
+footer{margin-top:34px;padding-top:16px;border-top:1px solid var(--line);
+  color:var(--muted);font-size:12.5px;line-height:1.6}
+
+.skel{color:#8B78A8}
+
+@media (max-width:980px){
+  .hero{grid-template-columns:1fr}
+  .grid2,.grid3{grid-template-columns:1fr}
+  .mast-title{font-size:25px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <div>
+      <h1 class="mast-title">Navratri &amp; Dandiya Nights 2026</h1>
+      <div class="mast-sub">Sensorium Joyville &#183; organising committee control room</div>
+    </div>
+    <div class="mast-right">
+      <span class="pulse loading" id="pulse" aria-hidden="true"></span>
+      <span class="stamp" id="stamp">Connecting to the sheet&hellip;</span>
+      <button class="btn" id="refresh">Refresh now</button>
+    </div>
+  </header>
+
+  <div class="banner" id="banner" role="status"></div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="ringbox">
+      <div class="ring-caption" id="ringCaption">Funding the nine nights</div>
+      <svg id="ring" viewBox="0 0 260 235" width="100%" height="auto" role="img" aria-label="Funding progress"></svg>
+      <div class="ring-note" id="ringNote">&nbsp;</div>
+    </div>
+
+    <div class="ledger">
+      <div class="ledger-row">
+        <span class="ledger-label">Raised so far</span>
+        <span class="ledger-val big gold" id="vIncome">&mdash;</span>
+      </div>
+      <div class="ledger-row">
+        <span class="ledger-label">Resident contributions</span>
+        <span class="ledger-val" id="vContrib">&mdash;</span>
+      </div>
+      <div class="ledger-row">
+        <span class="ledger-label">Sponsorships received</span>
+        <span class="ledger-val dim" id="vSponsor">&mdash;</span>
+      </div>
+      <div class="ledger-row">
+        <span class="ledger-label">Spent to date</span>
+        <span class="ledger-val dim" id="vExpense">&mdash;</span>
+      </div>
+      <div class="ledger-row">
+        <span class="ledger-label">Cash in hand</span>
+        <span class="ledger-val teal" id="vBalance">&mdash;</span>
+      </div>
+      <div class="ledger-row">
+        <span class="ledger-label">Budget ceiling</span>
+        <span class="ledger-val dim" id="vMax">&mdash;</span>
+      </div>
+      <div class="callout" id="callout">Waiting for the first read from the sheet.</div>
+    </div>
+  </div>
+
+  <!-- COLLECTIONS -->
+  <section>
+    <div class="sec-head">
+      <h2 class="sec-title">Collections</h2>
+      <div class="sec-note" id="collNote"></div>
+    </div>
+
+    <div class="grid3" id="collStats"></div>
+
+    <div class="grid2" style="margin-top:18px">
+      <div class="panel">
+        <h3>Where the money is coming from</h3>
+        <div class="sub">Contributions by tower</div>
+        <div id="towerBars"></div>
+      </div>
+      <div class="panel">
+        <h3>Verification</h3>
+        <div class="sub">Every entry needs a treasurer tick before it counts as banked</div>
+        <div id="verifyStrip"></div>
+        <div class="tablewrap" style="margin-top:16px;border:none;background:transparent">
+          <table id="collTable"></table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXECUTION -->
+  <section>
+    <div class="sec-head">
+      <h2 class="sec-title">Execution</h2>
+      <div class="sec-note" id="execNote"></div>
+    </div>
+
+    <div class="grid3" id="execStats"></div>
+
+    <div class="grid2" style="margin-top:18px">
+      <div class="panel">
+        <h3>Readiness</h3>
+        <div class="sub">Six things that have to be true before the first aarti</div>
+        <div id="readiness"></div>
+        <div class="verdict" id="verdict"></div>
+      </div>
+      <div class="panel">
+        <h3>Event confirmations</h3>
+        <div class="sub">Locked in versus still on paper</div>
+        <div id="eventStrip"></div>
+        <div class="tablewrap" style="margin-top:16px;border:none;background:transparent">
+          <table id="execTable"></table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BUDGET -->
+  <section>
+    <div class="sec-head">
+      <h2 class="sec-title">Event budget</h2>
+      <div class="sec-note" id="budgetNote"></div>
+    </div>
+    <div class="panel" style="margin-bottom:18px">
+      <h3>Planned against actual</h3>
+      <div class="sub" id="pvaSub">Per activity</div>
+      <div id="pvaChart"></div>
+    </div>
+    <div class="tablewrap">
+      <table id="budgetTable"></table>
+    </div>
+  </section>
+
+  <!-- TOWER TABLE -->
+  <section>
+    <div class="sec-head">
+      <h2 class="sec-title">Tower-wise contributions</h2>
+      <div class="sec-note" id="towerNote"></div>
+    </div>
+    <div class="tablewrap">
+      <table id="towerTable"></table>
+    </div>
+  </section>
+
+  <details class="raw">
+    <summary>Show the Dashboard tab exactly as it arrives from the sheet</summary>
+    <div class="rawinner"><table id="rawTable"></table></div>
+  </details>
+
+  <footer id="footer"></footer>
+</div>
+
+<script>
+/* ============================================================
+   CONFIG — edit these five lines, then save the file.
+   ============================================================ */
+const CONFIG = {
+  // Paste the /exec URL from your Apps Script deployment here:
+  WEB_APP_URL: "https://script.google.com/macros/s/AKfycbz26xev-bUAFEDcOn_P7Nk0KgfpZT7SHy2fU3R_xbZU9F9eDRnwFrTlNt0nxmR5lLOj/exec",
+
+  // Only needed if you set ACCESS_TOKEN in the Apps Script. Otherwise leave "".
+  TOKEN: "",
+
+  // First night of Navratri. CHECK THIS against the panchang before you circulate.
+  FESTIVAL_START: "2026-10-11",
+
+  // Flats in the society. Drives coverage and "families still to contribute".
+  TOTAL_FAMILIES: 0,   // set to 0 if you would rather hide those two KPIs
+
+  REFRESH_SECONDS: 60
+};
+/* ========================= end config ========================= */
+
+const NIGHTS = 9;
+const $ = id => document.getElementById(id);
+
+/* ---------- formatting ---------- */
+const inr = n => "\u20B9" + Math.round(Math.abs(n)).toLocaleString("en-IN");
+const money = n => (n === null || n === undefined) ? null : (n < 0 ? "-" + inr(n) : inr(n));
+const pct = (a,b) => (!b || b <= 0) ? 0 : Math.max(0, Math.min(100, (a/b)*100));
+const fmtPct = p => (p >= 10 ? p.toFixed(0) : p.toFixed(1)) + "%";
+
+function num(raw){
+  if (raw === null || raw === undefined) return null;
+  if (typeof raw === "number") return isFinite(raw) ? raw : null;
+  let s = String(raw).trim();
+  if (!s || s === "-" || s === "\u2013" || s === "\u2014" || s === "N/A") return null;
+  const neg = /^\(.*\)$/.test(s);
+  s = s.replace(/[\u20B9$,()\s]/g, "").replace(/%$/, "");
+  if (s === "" || isNaN(s)) return null;
+  const v = parseFloat(s);
+  return neg ? -v : v;
+}
+const norm = s => String(s === null || s === undefined ? "" : s).replace(/\s+/g," ").trim();
+const key  = s => norm(s).toLowerCase().replace(/[^a-z0-9]/g,"");
+
+/* ---------- grid helpers: anchor on labels, never on cell addresses ---------- */
+let GRID = [];
+
+function findCell(pattern){
+  const isRe = pattern instanceof RegExp;
+  for (let r = 0; r < GRID.length; r++){
+    for (let c = 0; c < GRID[r].length; c++){
+      const cell = norm(GRID[r][c]);
+      if (!cell) continue;
+      if (isRe ? pattern.test(cell) : key(cell) === key(pattern)) return {r, c};
+    }
+  }
+  return null;
+}
+const at = (r,c) => (GRID[r] && GRID[r][c] !== undefined) ? norm(GRID[r][c]) : "";
+
+// Pull a figure sitting next to (or under) a label.
+function lookup(label, prefer){
+  const pos = findCell(label);
+  if (!pos) return {raw:null, value:null, extra:null};
+  const right = [], below = [];
+  for (let c = pos.c+1; c <= pos.c+4; c++){ const v = at(pos.r, c); if (v) right.push(v); }
+  for (let r = pos.r+1; r <= pos.r+3; r++){ const v = at(r, pos.c); if (v) below.push(v); }
+  const pools = prefer === "below" ? [below, right] : [right, below];
+  for (const pool of pools){
+    for (const v of pool){ if (num(v) !== null) return {raw:v, value:num(v), extra: right[1] || null}; }
+  }
+  for (const pool of pools){ if (pool.length) return {raw:pool[0], value:null, extra: right[1] || null}; }
+  return {raw:null, value:null, extra:null};
+}
+const val = (label, prefer) => lookup(label, prefer).value;
+
+// Read a table that starts at a known header cell.
+function readTable(headerPattern, maxCols){
+  const pos = findCell(headerPattern);
+  if (!pos) return null;
+  const headers = [];
+  for (let c = pos.c; c < pos.c + (maxCols || 9); c++){
+    const h = at(pos.r, c);
+    if (!h) break;
+    headers.push(h);
+  }
+  const rows = [];
+  for (let r = pos.r + 1; r < GRID.length; r++){
+    const first = at(r, pos.c);
+    if (!first) break;
+    // a new section header (single wide all-caps cell) also terminates the table
+    const rest = headers.slice(1).map((_, i) => at(r, pos.c + 1 + i));
+    if (!rest.some(Boolean) && first === first.toUpperCase() && first.length > 12) break;
+    rows.push([first, ...rest]);
+  }
+  return {headers, rows};
+}
+
+/* ---------- JSONP (works from file:// with no CORS grief) ---------- */
+function jsonp(url, cb){
+  const name = "sjcb_" + Date.now() + "_" + Math.floor(Math.random()*1e6);
+  const s = document.createElement("script");
+  let done = false;
+  const finish = (err, data) => {
+    if (done) return; done = true;
+    clearTimeout(timer); delete window[name];
+    if (s.parentNode) s.parentNode.removeChild(s);
+    cb(err, data);
+  };
+  const timer = setTimeout(() => finish(new Error("The sheet did not answer within 25 seconds.")), 25000);
+  window[name] = data => finish(null, data);
+  s.onerror = () => finish(new Error("Could not reach the web app. Check the URL and that the deployment is set to \u201cAnyone\u201d."));
+  s.src = url + (url.indexOf("?") > -1 ? "&" : "?") + "callback=" + name + (CONFIG.TOKEN ? "&token=" + encodeURIComponent(CONFIG.TOKEN) : "");
+  document.body.appendChild(s);
+}
+
+/* ---------- hero ring: nine segments, one per night ---------- */
+function polar(cx, cy, r, deg){
+  const a = (deg - 90) * Math.PI / 180;
+  return [cx + r*Math.cos(a), cy + r*Math.sin(a)];
+}
+function arcPath(cx, cy, r, a0, a1){
+  const [x0,y0] = polar(cx,cy,r,a0), [x1,y1] = polar(cx,cy,r,a1);
+  const large = (a1 - a0) > 180 ? 1 : 0;
+  return `M ${x0.toFixed(2)} ${y0.toFixed(2)} A ${r} ${r} 0 ${large} 1 ${x1.toFixed(2)} ${y1.toFixed(2)}`;
+}
+function drawRing(fraction, centreTop, centreBottom){
+  const cx = 130, cy = 124, r = 92, START = 215, SWEEP = 290, GAP = 3.2;
+  const seg = SWEEP / NIGHTS;
+  let out = "";
+
+  for (let i = 0; i < NIGHTS; i++){
+    const a0 = START + i*seg + GAP/2, a1 = START + (i+1)*seg - GAP/2;
+    out += `<path d="${arcPath(cx,cy,r,a0,a1)}" stroke="#FFFFFF16" stroke-width="15" fill="none" stroke-linecap="round"/>`;
+  }
+  const lit = Math.max(0, Math.min(1, fraction)) * SWEEP;
+  for (let i = 0; i < NIGHTS; i++){
+    const s0 = i*seg, s1 = (i+1)*seg;
+    if (lit <= s0) break;
+    const a0 = START + s0 + GAP/2;
+    const a1 = START + Math.min(s1, lit) - GAP/2;
+    if (a1 <= a0) continue;
+    out += `<path d="${arcPath(cx,cy,r,a0,a1)}" stroke="url(#flame)" stroke-width="15" fill="none" stroke-linecap="round"/>`;
+  }
+  for (let i = 0; i <= NIGHTS; i++){
+    const [x,y] = polar(cx, cy, r + 22, START + i*seg);
+    if (i < NIGHTS) out += `<circle cx="${polar(cx,cy,r+21,START+i*seg+seg/2)[0].toFixed(1)}" cy="${polar(cx,cy,r+21,START+i*seg+seg/2)[1].toFixed(1)}" r="2.1" fill="${(lit > i*seg) ? "#E9B44C" : "#FFFFFF24"}"/>`;
+  }
+
+  $("ring").innerHTML = `
+    <defs>
+      <linearGradient id="flame" x1="0" y1="1" x2="1" y2="0">
+        <stop offset="0%" stop-color="#E0257A"/>
+        <stop offset="52%" stop-color="#F2751F"/>
+        <stop offset="100%" stop-color="#E9B44C"/>
+      </linearGradient>
+    </defs>
+    ${out}
+    <text x="130" y="112" text-anchor="middle" fill="#F6ECD9" font-family="Marcellus, serif" font-size="46">${centreTop}</text>
+    <text x="130" y="136" text-anchor="middle" fill="#AE9BCB" font-size="12.5" font-family="IBM Plex Sans, sans-serif">${centreBottom}</text>
+    <text x="130" y="176" text-anchor="middle" fill="#E9B44C" font-size="15.5" font-weight="600" font-family="IBM Plex Sans, sans-serif">${fmtPct(fraction*100)} funded</text>
+  `;
+}
+
+/* ---------- small builders ---------- */
+function statTile(n, k, hint, accent){
+  return `<div class="stat ${accent ? "accent-"+accent : ""}">
+    <div class="n">${n}</div><div class="k">${k}</div>
+    ${hint ? `<div class="hint">${hint}</div>` : ""}</div>`;
+}
+function barRow(name, value, max, colour, label){
+  const w = pct(value, max);
+  return `<div class="bar-row ${value ? "" : "zero"}">
+    <div class="bar-name">${name}</div>
+    <div class="bar-track"><div class="bar-fill" style="width:${w}%;background:${colour}"></div></div>
+    <div class="bar-val">${label}</div></div>`;
+}
+function tagFor(text){
+  const t = norm(text), k = t.toLowerCase();
+  if (!t) return '<span class="empty">&mdash;</span>';
+  let cls = "auto";
+  if (k.includes("confirm") || k.includes("done") || k.includes("complete") || k.includes("verified")) cls = "confirmed";
+  else if (k.includes("plan") || k.includes("pending") || k.includes("tbd")) cls = "planned";
+  else if (k.includes("review") || k.includes("risk") || k.includes("high")) cls = "review";
+  return `<span class="tag ${cls}">${t}</span>`;
+}
+function renderTable(el, headers, rows, opts){
+  opts = opts || {};
+  const numericCol = opts.numeric || [];
+  const tagCol = opts.tags || [];
+  el.innerHTML =
+    "<thead><tr>" + headers.map(h => `<th>${h}</th>`).join("") + "</tr></thead>" +
+    "<tbody>" + rows.map(r => "<tr>" + r.map((cell, i) => {
+        const v = norm(cell);
+        if (tagCol.includes(i)) return `<td>${tagFor(v)}</td>`;
+        const cls = numericCol.includes(i) ? "num" : "";
+        if (!v || v === "-") return `<td class="${cls}"><span class="empty">not set</span></td>`;
+        return `<td class="${cls}">${v}</td>`;
+      }).join("") + "</tr>").join("") + "</tbody>";
+}
+
+/* ---------- main render ---------- */
+function render(payload){
+  GRID = payload.display || [];
+
+  /* -- headline money -- */
+  const maxBudget = val("Maximum Budget", "below") ?? 0;
+  const contrib   = val("Total Contributions", "below") ?? 0;
+  const sponsor   = val("Sponsorships Received", "below");
+  const expense   = val("Total Expenses", "below");
+  const income    = val("Total Income", "below") ?? (contrib + (sponsor || 0));
+  const balance   = val("Available Balance", "below") ?? (income - (expense || 0));
+  const remaining = val("Budget Remaining", "below") ?? (maxBudget - (expense || 0));
+
+  $("vMax").textContent      = money(maxBudget) || "not set";
+  $("vContrib").textContent  = money(contrib) || "nothing yet";
+  $("vSponsor").textContent  = sponsor === null ? "none yet" : money(sponsor);
+  $("vExpense").textContent  = expense === null ? "nothing spent" : money(expense);
+  $("vIncome").textContent   = money(income) || "\u20B90";
+  $("vBalance").textContent  = money(balance) || "\u20B90";
+
+  /* -- countdown -- */
+  const start = new Date(CONFIG.FESTIVAL_START + "T00:00:00");
+  const today = new Date(); today.setHours(0,0,0,0);
+  const days = Math.round((start - today) / 86400000);
+  const fraction = maxBudget > 0 ? income / maxBudget : 0;
+
+  let centreTop, centreBottom;
+  if (days > 0){ centreTop = days; centreBottom = days === 1 ? "day to the first night" : "days to the first night"; }
+  else if (days === 0){ centreTop = "Aaj"; centreBottom = "the first night is tonight"; }
+  else if (days > -NIGHTS){ centreTop = "Night " + (Math.abs(days) + 1); centreBottom = "of nine"; }
+  else { centreTop = "Done"; centreBottom = "the nine nights have passed"; }
+  drawRing(fraction, centreTop, centreBottom);
+
+  const gap = Math.max(0, maxBudget - income);
+  const perDay = days > 0 ? gap / days : gap;
+  $("ringNote").innerHTML = gap > 0 && days > 0
+    ? `${money(gap)} still to raise &#183; that is <b style="color:var(--gold)">${money(perDay)} a day</b> from here`
+    : (gap > 0 ? `${money(gap)} short of the ceiling` : `The budget is fully funded.`);
+
+  /* -- collection overview figures -- */
+  const suggested  = val("Suggested Contribution / Family") ?? val("Suggested Contribution per Family");
+  const nContrib   = val("Number of Contributions") ?? 0;
+  const avg        = val("Average Contribution");
+  const verified   = val("Verified Contributions") ?? 0;
+  const pending    = val("Pending Verification") ?? 0;
+  const uniqTowers = val("Unique Towers Contributing") ?? 0;
+
+  /* -- callout: the one sentence that matters -- */
+  const fam = CONFIG.TOTAL_FAMILIES;
+  let calloutHtml;
+  if (gap <= 0){
+    calloutHtml = `The ceiling is covered. Shift attention to spend control &mdash; ${money(balance)} is in hand.`;
+  } else if (fam > 0 && suggested){
+    const need = Math.ceil(gap / suggested);
+    const left = Math.max(0, fam - nContrib);
+    calloutHtml = `To close the gap you need <b>${need.toLocaleString("en-IN")}</b> more families at ${money(suggested)}. There are <b>${left.toLocaleString("en-IN")}</b> flats yet to contribute, so the target is reachable at ${fmtPct(pct(need, left || 1))} take-up.`;
+  } else if (suggested){
+    const need = Math.ceil(gap / suggested);
+    calloutHtml = `At ${money(suggested)} a family, it takes <b>${need.toLocaleString("en-IN")}</b> more contributions to reach ${money(maxBudget)}. Set <code>TOTAL_FAMILIES</code> in this file to see take-up against the society roll.`;
+  } else {
+    calloutHtml = `${money(gap)} of the ${money(maxBudget)} ceiling is still unfunded.`;
+  }
+  $("callout").innerHTML = calloutHtml;
+
+  /* -- collection stats -- */
+  const coverage = fam > 0 ? pct(nContrib, fam) : null;
+  const verifyPct = nContrib > 0 ? pct(verified, nContrib) : 0;
+  const towerTbl = readTable(/^tower$/i, 4);
+  const towerRows = towerTbl ? towerTbl.rows : [];
+  const towerTotal = towerRows.length;
+
+  $("collStats").innerHTML = [
+    statTile(nContrib.toLocaleString("en-IN"), "Contributions logged",
+      suggested ? `Suggested ${money(suggested)} a family` : null, "gold"),
+    statTile(avg ? money(avg) : "\u2014", "Average contribution",
+      (avg && suggested) ? (avg >= suggested ? "At or above the suggested amount" : `${money(suggested - avg)} below the suggested amount`) : null,
+      (avg && suggested && avg >= suggested) ? "teal" : "marigold"),
+    statTile(fmtPct(verifyPct), "Verified and banked",
+      `${verified} of ${nContrib} checked${pending ? ` &#183; ${pending} awaiting a tick` : ""}`,
+      verifyPct >= 100 ? "teal" : "rani"),
+    statTile(`${uniqTowers}<span class="muted" style="font-size:18px">/${towerTotal || "?"}</span>`, "Towers that have chipped in",
+      towerTotal ? `${Math.max(0, towerTotal - uniqTowers)} towers yet to open their account` : null,
+      uniqTowers >= towerTotal && towerTotal ? "teal" : "rani"),
+    coverage !== null
+      ? statTile(fmtPct(coverage), "Of flats have paid", `${Math.max(0, fam - nContrib).toLocaleString("en-IN")} of ${fam.toLocaleString("en-IN")} flats still to go`, coverage >= 60 ? "teal" : "rani")
+      : statTile("\u2014", "Take-up across the society", "Set <code>TOTAL_FAMILIES</code> in this file to switch this on", "gold"),
+    statTile(fmtPct(fraction*100), "Of the budget raised", `${money(gap)} to go`, fraction >= 0.6 ? "teal" : "marigold")
+  ].join("");
+
+  $("collNote").innerHTML = `Suggested contribution ${suggested ? money(suggested) : "not set"} &#183; ${nContrib} entries recorded`;
+
+  /* -- tower bars -- */
+  if (towerRows.length){
+    const amounts = towerRows.map(r => num(r[1]) || 0);
+    const peak = Math.max(...amounts, 1);
+    const palette = ["#E9B44C","#F2751F","#E0257A","#17A398","#B06AD8","#EF9A3D","#D94F8C","#3FC1B4"];
+    $("towerBars").innerHTML = towerRows.map((r, i) => {
+      const amt = num(r[1]) || 0;
+      const entries = num(r[2]) || 0;
+      const share = norm(r[3]);
+      return barRow(norm(r[0]), amt, peak, palette[i % palette.length],
+        amt ? `${money(amt)} &#183; ${entries}` : "nothing yet");
+    }).join("") + `<div class="legend" style="margin-top:14px">Bar length is the amount; the figure after the dot is the number of entries.</div>`;
+  } else {
+    $("towerBars").innerHTML = `<div class="empty">No tower rows found on the tab.</div>`;
+  }
+
+  /* -- verification strip -- */
+  const unver = Math.max(0, nContrib - verified);
+  if (nContrib > 0){
+    const vW = (verified/nContrib)*100, uW = 100 - vW;
+    $("verifyStrip").innerHTML =
+      `<div class="strip">
+        ${vW ? `<div style="width:${vW}%;background:linear-gradient(90deg,#17A398,#3FC1B4)">${verified} verified</div>` : ""}
+        ${uW ? `<div style="width:${uW}%;background:linear-gradient(90deg,#E0257A,#F2751F)">${unver} to check</div>` : ""}
+      </div>
+      <div class="legend"><span><span class="dot" style="background:#17A398"></span>Banked and reconciled</span>
+      <span><span class="dot" style="background:#E0257A"></span>Received, not yet verified</span></div>`;
+  } else {
+    $("verifyStrip").innerHTML = `<div class="empty">Nothing to verify yet. The strip fills as contributions arrive.</div>`;
+  }
+
+  /* -- collection overview table (faithful to the tab) -- */
+  const collLabels = ["Suggested Contribution / Family","Number of Contributions","Average Contribution",
+                      "Verified Contributions","Pending Verification","Unique Towers Contributing"];
+  renderTable($("collTable"), ["Metric","Count / Amount","Status"],
+    collLabels.map(l => { const p = findCell(l); return p ? [at(p.r,p.c), at(p.r,p.c+1), at(p.r,p.c+2)] : null; }).filter(Boolean),
+    {numeric:[1], tags:[2]});
+
+  /* -- execution -- */
+  const nEvents   = val("Events / Activities") ?? 0;
+  const completed = val("Events Completed") ?? 0;
+  const openItems = val("Open Action Items") ?? 0;
+  const highPri   = val("High Priority Open") ?? 0;
+  const vendors   = val("Vendors Under Evaluation") ?? 0;
+  const seva      = val("Seva Days Assigned") ?? 0;
+
+  const budgetTbl = readTable(/^event ?\/ ?activity$/i, 7);
+  const budgetRows = budgetTbl ? budgetTbl.rows : [];
+  const statusIdx = budgetTbl ? budgetTbl.headers.findIndex(h => /status/i.test(h)) : -1;
+  const confirmed = budgetRows.filter(r => statusIdx > -1 && /confirm/i.test(r[statusIdx] || "")).length;
+  const onPaper = budgetRows.length - confirmed;
+
+  $("execStats").innerHTML = [
+    statTile(nEvents, "Events and activities", `${budgetRows.length} listed in the budget table`, "gold"),
+    statTile(`${confirmed}<span class="muted" style="font-size:18px">/${budgetRows.length || "?"}</span>`, "Confirmed",
+      onPaper > 0 ? `${onPaper} still only on paper` : "Everything is locked in", confirmed === budgetRows.length && budgetRows.length ? "teal" : "marigold"),
+    statTile(completed, "Completed", days > 0 ? "Nothing runs before the first night" : null, "teal"),
+    statTile(openItems, "Open action items", highPri ? `${highPri} of them are high priority` : "Nothing flagged high priority", openItems > 0 ? "rani" : "teal"),
+    statTile(vendors, "Vendors under evaluation", vendors > 0 ? "Quotes still open \u2014 nothing signed" : "All vendor calls made", vendors > 0 ? "marigold" : "teal"),
+    statTile(`${seva}<span class="muted" style="font-size:18px">/${NIGHTS}</span>`, "Seva days assigned",
+      seva < NIGHTS ? `${NIGHTS - seva} nights without a named volunteer team` : "Every night has a team", seva >= NIGHTS ? "teal" : "rani")
+  ].join("");
+
+  $("execNote").innerHTML = days > 0 ? `${days} days of runway` : "The festival window is open";
+
+  /* -- readiness -- */
+  const parts = [
+    { label:"Budget funded",      v: pct(income, maxBudget),                    colour:"#E9B44C" },
+    { label:"Events confirmed",   v: pct(confirmed, budgetRows.length || 1),    colour:"#F2751F" },
+    { label:"Vendors appointed",  v: vendors > 0 ? 0 : 100,                     colour:"#E0257A" },
+    { label:"Seva roster filled", v: pct(seva, NIGHTS),                         colour:"#B06AD8" },
+    { label:"Payments verified",  v: nContrib ? pct(verified, nContrib) : 0,    colour:"#17A398" },
+    { label:"Actions closed",     v: openItems > 0 ? Math.max(0, 100 - highPri*16.7) : 100, colour:"#3FC1B4" }
+  ];
+  const score = parts.reduce((a,p) => a + p.v, 0) / parts.length;
+  $("readiness").innerHTML = parts.map(p =>
+    `<div class="ready-row">
+       <div class="ready-label">${p.label}</div>
+       <div class="bar-track"><div class="bar-fill" style="width:${p.v}%;background:${p.colour}"></div></div>
+       <div class="ready-pct">${fmtPct(p.v)}</div>
+     </div>`).join("");
+
+  const weakest = parts.slice().sort((a,b) => a.v - b.v).slice(0,2).map(p => p.label.toLowerCase());
+  let verdict;
+  if (score < 25) verdict = `Overall readiness sits at <b>${fmtPct(score)}</b>. This is still the opening stretch &mdash; ${weakest[0]} and ${weakest[1]} are what to pick up first.`;
+  else if (score < 55) verdict = `Overall readiness is <b>${fmtPct(score)}</b>. Momentum is building; ${weakest[0]} is the drag.`;
+  else if (score < 80) verdict = `Overall readiness is <b>${fmtPct(score)}</b>. On track, with ${weakest[0]} the remaining soft spot.`;
+  else verdict = `Overall readiness is <b>${fmtPct(score)}</b>. The committee is in good shape.`;
+  $("verdict").innerHTML = verdict;
+
+  /* -- event strip -- */
+  if (budgetRows.length){
+    const cW = (confirmed/budgetRows.length)*100;
+    $("eventStrip").innerHTML =
+      `<div class="strip">
+        ${cW ? `<div style="width:${cW}%;background:linear-gradient(90deg,#17A398,#3FC1B4)">${confirmed} confirmed</div>` : ""}
+        ${100-cW ? `<div style="width:${100-cW}%;background:linear-gradient(90deg,#E9B44C,#F2751F)">${onPaper} planned</div>` : ""}
+      </div>
+      <div class="legend"><span><span class="dot" style="background:#17A398"></span>Date, venue and owner settled</span>
+      <span><span class="dot" style="background:#E9B44C"></span>Agreed in principle only</span></div>`;
+  }
+
+  const execLabels = ["Events / Activities","Events Completed","Open Action Items",
+                      "High Priority Open","Vendors Under Evaluation","Seva Days Assigned"];
+  renderTable($("execTable"), ["Metric","Count","Status"],
+    execLabels.map(l => { const p = findCell(l); return p ? [at(p.r,p.c), at(p.r,p.c+1), at(p.r,p.c+2)] : null; }).filter(Boolean),
+    {numeric:[1], tags:[2]});
+
+  /* -- budget table + planned vs actual -- */
+  if (budgetTbl){
+    const pIdx = budgetTbl.headers.findIndex(h => /planned/i.test(h));
+    const aIdx = budgetTbl.headers.findIndex(h => /actual/i.test(h));
+    const vIdx = budgetTbl.headers.findIndex(h => /variance/i.test(h));
+    const numCols = [pIdx, aIdx, vIdx].filter(i => i > -1);
+    renderTable($("budgetTable"), budgetTbl.headers, budgetRows,
+      {numeric:numCols, tags:[statusIdx].filter(i => i > -1)});
+
+    const planned = budgetRows.map(r => pIdx > -1 ? (num(r[pIdx]) || 0) : 0);
+    const actual  = budgetRows.map(r => aIdx > -1 ? (num(r[aIdx]) || 0) : 0);
+    const peak = Math.max(...planned, ...actual, 0);
+    const totalPlanned = planned.reduce((a,b) => a+b, 0);
+    const totalActual  = actual.reduce((a,b) => a+b, 0);
+
+    if (peak > 0){
+      $("pvaChart").innerHTML = budgetRows.map((r,i) =>
+        `<div class="bar-row"><div class="bar-name" style="width:auto">${norm(r[0])}</div>
+          <div>
+            <div class="bar-track" style="height:11px;margin-bottom:4px"><div class="bar-fill" style="width:${pct(planned[i],peak)}%;background:#E9B44C"></div></div>
+            <div class="bar-track" style="height:11px"><div class="bar-fill" style="width:${pct(actual[i],peak)}%;background:#17A398"></div></div>
+          </div>
+          <div class="bar-val">${money(planned[i]) || "\u2014"} / ${money(actual[i]) || "\u2014"}</div></div>`
+      ).join("") + `<div class="legend" style="margin-top:12px">
+        <span><span class="dot" style="background:#E9B44C"></span>Planned</span>
+        <span><span class="dot" style="background:#17A398"></span>Actual</span></div>`;
+      $("pvaSub").innerHTML = `Planned ${money(totalPlanned)} against ${money(totalActual)} actually spent`;
+    } else {
+      $("pvaChart").innerHTML = `<div class="empty">No amounts have been entered against any activity yet. Fill the Planned column on the tab and this chart appears on the next refresh.</div>`;
+      $("pvaSub").textContent = "Waiting on the first planned figures";
+    }
+    $("budgetNote").innerHTML = `${budgetRows.length} activities &#183; ${confirmed} confirmed`;
+  }
+
+  /* -- tower table -- */
+  if (towerTbl){
+    renderTable($("towerTable"), towerTbl.headers, towerRows, {numeric:[1,2,3]});
+    $("towerNote").innerHTML = `${uniqTowers} of ${towerRows.length} towers have contributed`;
+  }
+
+  /* -- raw -- */
+  $("rawTable").innerHTML = "<tbody>" + GRID.map(r =>
+    "<tr>" + r.map(c => `<td>${norm(c) || "&nbsp;"}</td>`).join("") + "</tr>").join("") + "</tbody>";
+
+  /* -- data-quality note -- */
+  const notes = [];
+  if (nEvents && budgetRows.length && nEvents !== budgetRows.length){
+    notes.push(`The tab reports <b>${nEvents}</b> events but the budget table lists <b>${budgetRows.length}</b> rows &mdash; worth reconciling.`);
+  }
+  if (CONFIG.TOTAL_FAMILIES === 0) notes.push(`Set <code>TOTAL_FAMILIES</code> in this file to unlock take-up and coverage figures.`);
+  notes.push(`First night is set to <b>${start.toLocaleDateString("en-IN",{day:"numeric",month:"long",year:"numeric"})}</b>. Change <code>FESTIVAL_START</code> if the panchang says otherwise.`);
+  $("footer").innerHTML = notes.join("<br>") +
+    `<br>Reading the Dashboard tab only. Refreshes every ${CONFIG.REFRESH_SECONDS} seconds while this page is open.`;
+}
+
+/* ---------- fetch cycle ---------- */
+let lastGood = null;
+function setStatus(state, text){
+  $("pulse").className = "pulse" + (state ? " " + state : "");
+  $("stamp").textContent = text;
+}
+function banner(msg, isError){
+  const b = $("banner");
+  if (!msg){ b.className = "banner"; return; }
+  b.className = "banner show" + (isError ? " error" : "");
+  b.innerHTML = msg;
+}
+function load(){
+  if (!CONFIG.WEB_APP_URL || CONFIG.WEB_APP_URL.indexOf("PASTE_") === 0){
+    setStatus("stale", "Not connected");
+    banner(`Open this file in a text editor and paste your Apps Script <code>/exec</code> URL into <code>WEB_APP_URL</code> near the bottom, then reload.`, true);
+    return;
+  }
+  setStatus("loading", "Reading the sheet\u2026");
+  jsonp(CONFIG.WEB_APP_URL, (err, data) => {
+    if (err || !data || !data.ok){
+      const msg = err ? err.message : (data && data.error) || "The web app returned an error.";
+      setStatus("stale", lastGood ? "Showing the last good read" : "Not connected");
+      banner(msg + (lastGood ? " Figures below are from " + lastGood.toLocaleTimeString("en-IN") + "." : ""), true);
+      return;
+    }
+    banner(null);
+    lastGood = new Date();
+    render(data);
+    setStatus("", "Live \u00b7 updated " + lastGood.toLocaleTimeString("en-IN", {hour:"2-digit", minute:"2-digit", second:"2-digit"}));
+  });
+}
+$("refresh").addEventListener("click", load);
+load();
+setInterval(load, Math.max(15, CONFIG.REFRESH_SECONDS) * 1000);
+document.addEventListener("visibilitychange", () => { if (!document.hidden) load(); });
+</script>
+</body>
+</html>
