@@ -227,7 +227,7 @@ footer{margin-top:34px;padding-top:16px;border-top:1px solid var(--line);
         <span class="ledger-val teal" id="vBalance">&mdash;</span>
       </div>
       <div class="ledger-row">
-        <span class="ledger-label">Budget ceiling</span>
+        <span class="ledger-label">Contributions ceiling</span>
         <span class="ledger-val dim" id="vMax">&mdash;</span>
       </div>
       <div class="callout" id="callout">Waiting for the first read from the sheet.</div>
@@ -534,7 +534,7 @@ function render(payload){
   const expense   = val("Total Expenses", "below");
   const income    = val("Total Income", "below") ?? (contrib + (sponsor || 0));
   const balance   = val("Available Balance", "below") ?? (income - (expense || 0));
-  const remaining = val("Budget Remaining", "below") ?? (maxBudget - (expense || 0));
+  const remaining = val("Contributions Remaining", "below") ?? (maxBudget - (expense || 0));
 
   $("vMax").textContent      = money(maxBudget) || "not set";
   $("vContrib").textContent  = money(contrib) || "nothing yet";
@@ -560,7 +560,7 @@ function render(payload){
   const perDay = days > 0 ? gap / days : gap;
   $("ringNote").innerHTML = gap > 0 && days > 0
     ? `${money(gap)} still to raise &#183; that is <b style="color:var(--gold)">${money(perDay)} a day</b> from here`
-    : (gap > 0 ? `${money(gap)} short of the ceiling` : `The budget is fully funded.`);
+    : (gap > 0 ? `${money(gap)} short of the ceiling` : `The Contributions are fully done.`);
 
   /* -- collection overview figures -- */
   const suggested  = val("Suggested Contribution / Family") ?? val("Suggested Contribution per Family");
@@ -609,7 +609,7 @@ function render(payload){
     coverage !== null
       ? statTile(fmtPct(coverage), "Of flats have paid", `${Math.max(0, fam - nContrib).toLocaleString("en-IN")} of ${fam.toLocaleString("en-IN")} flats still to go`, coverage >= 60 ? "teal" : "rani")
       : statTile("\u2014", "Take-up across the society", "Set <code>TOTAL_FAMILIES</code> in this file to switch this on", "gold"),
-    statTile(fmtPct(fraction*100), "Of the budget raised", `${money(gap)} to go`, fraction >= 0.6 ? "teal" : "marigold")
+    statTile(fmtPct(fraction*100), "Of the contributions raised", `${money(gap)} to go`, fraction >= 0.6 ? "teal" : "marigold")
   ].join("");
 
   $("collNote").innerHTML = `Suggested contribution ${suggested ? money(suggested) : "not set"} &#183; ${nContrib} entries recorded`;
