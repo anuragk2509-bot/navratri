@@ -180,6 +180,151 @@ footer{margin-top:34px;padding-top:16px;border-top:1px solid var(--line);
 @media (prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important}
 }
+
+/* ============================================================
+   FESTIVAL ADD-ON STYLES (everything below is new)
+   ============================================================ */
+:root{ --day:#E9B44C; --silver:#C9CED6; --bronze:#CD8A4A; }
+
+/* tonight strip: the colour of the day is woven into the left border like a dupatta edge */
+.tonight{margin-top:18px;display:grid;grid-template-columns:22px 1fr;border:1px solid var(--line);
+  border-radius:18px;background:var(--surface);overflow:hidden}
+.tonight .weave{background:
+    repeating-linear-gradient(180deg, transparent 0 11px, rgba(233,180,76,.75) 11px 13px, transparent 13px 17px, rgba(233,180,76,.4) 17px 18px),
+    var(--day);
+  box-shadow:inset -1px 0 0 #00000030}
+.tonight-body{display:grid;grid-template-columns:1.25fr 1fr 1fr auto;gap:0;align-items:stretch}
+.t-cell{padding:15px 18px;border-left:1px solid #FFFFFF10}
+.t-cell:first-child{border-left:none}
+.t-kicker{color:var(--muted);font-size:12.5px}
+.t-big{font-family:Marcellus,serif;font-size:23px;line-height:1.2;margin-top:2px}
+.t-line{font-size:13.5px;margin-top:4px;color:var(--cream)}
+.t-line .muted{font-size:13px}
+.chip-colour{display:inline-flex;align-items:center;gap:7px}
+.chip-colour i{width:12px;height:12px;border-radius:50%;background:var(--day);box-shadow:0 0 0 2px #FFFFFF26;display:inline-block}
+.t-join{display:flex;align-items:center;padding:15px 18px;border-left:1px solid #FFFFFF10}
+.btn.gold{background:var(--gold);color:#1B0A2E;border-color:var(--gold);font-weight:600;text-decoration:none;white-space:nowrap}
+.btn.gold:hover{background:#F3C76A}
+.now-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--rani);margin-right:7px;vertical-align:2px;
+  animation:pulse 1.8s infinite}
+
+/* tabs */
+.tabs{display:flex;align-items:flex-end;gap:2px;margin-top:22px;border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:none;background:none;border:none;border-bottom:2px solid transparent;color:var(--muted);font:inherit;font-size:14.5px;
+  padding:11px 15px 10px;cursor:pointer;white-space:nowrap}
+.tab:hover{color:var(--cream)}
+.tab[aria-selected="true"]{color:var(--cream);border-bottom-color:var(--gold)}
+.tab:focus-visible{outline:2px solid var(--gold);outline-offset:-2px;border-radius:6px 6px 0 0}
+.tabs .spacer{flex:1}
+.tabs .btn{flex:none;white-space:nowrap;margin:0 0 7px 8px;font-size:12.5px;padding:6px 11px}
+.pane[hidden]{display:none}
+.pane > section:first-child{margin-top:26px}
+.fest-note{margin-top:14px;font-size:13px;color:var(--muted)}
+.fest-note.error{color:#FFB3B3}
+
+/* lists inside panels */
+.row-list{display:flex;flex-direction:column}
+.row-item{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;padding:11px 0;border-bottom:1px solid #FFFFFF10}
+.row-item:last-child{border-bottom:none}
+.row-item .title{font-size:14.5px}
+.row-item .meta{color:var(--muted);font-size:12.5px;margin-top:2px}
+.row-item .figure{font-family:Marcellus,serif;font-size:22px;text-align:right}
+.row-item.today{background:linear-gradient(90deg,rgba(233,180,76,.12),transparent);margin:0 -18px;padding-left:18px;padding-right:18px}
+
+/* nominations */
+.nom-row{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr) 64px;gap:16px;align-items:center;padding:13px 0;border-bottom:1px solid #FFFFFF10}
+.nom-row:last-child{border-bottom:none}
+.nom-name{font-size:15px}
+.nom-meta{color:var(--muted);font-size:12.5px;margin-top:2px}
+.nom-count{font-family:Marcellus,serif;font-size:26px;text-align:right;line-height:1}
+.nom-count small{display:block;font-family:"IBM Plex Sans",sans-serif;font-size:11.5px;color:var(--muted);margin-top:4px}
+.tchips{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}
+.tchip{font-size:11.5px;padding:2px 8px;border-radius:99px;background:#FFFFFF0E;color:var(--muted);border:1px solid #FFFFFF14}
+.flag{display:inline-block;font-size:11.5px;font-weight:600;padding:2px 9px;border-radius:99px;margin-top:6px}
+.flag.low{background:#E0257A26;color:#FF8FBF;border:1px solid #E0257A55}
+.flag.done{background:#FFFFFF10;color:var(--muted);border:1px solid #FFFFFF1A}
+.flag.check{background:#E9B44C1F;color:var(--gold);border:1px solid #E9B44C55}
+
+/* winners */
+.win-event{padding:12px 0;border-bottom:1px solid #FFFFFF10}
+.win-event:last-child{border-bottom:none}
+.win-event h4{margin:0 0 8px;font-family:Marcellus,serif;font-weight:400;font-size:16px}
+.win-line{display:flex;align-items:center;gap:10px;font-size:14px;margin-top:6px}
+.medal{width:26px;height:26px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;
+  font-size:11.5px;font-weight:700;color:#1B0A2E;flex:none}
+
+/* leaderboard */
+ol.leaders{list-style:none;margin:0;padding:0;counter-reset:rank}
+ol.leaders li{counter-increment:rank;display:grid;grid-template-columns:30px 1fr auto;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid #FFFFFF10}
+ol.leaders li:last-child{border-bottom:none}
+ol.leaders li::before{content:counter(rank);font-family:Marcellus,serif;font-size:17px;color:var(--muted);text-align:center}
+ol.leaders li:nth-child(1)::before{color:var(--gold)}
+ol.leaders li:nth-child(2)::before{color:var(--silver)}
+ol.leaders li:nth-child(3)::before{color:var(--bronze)}
+.pts{font-weight:600;color:var(--gold);font-size:14px}
+.rules{display:grid;grid-template-columns:1fr auto;gap:6px 14px;font-size:13.5px}
+.rules span:nth-child(even){color:var(--gold);text-align:right;font-weight:600}
+
+/* trivia */
+.tq{font-family:Marcellus,serif;font-size:20px;line-height:1.35;margin:4px 0 14px}
+.topts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.topt{border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:14px;background:#FFFFFF06}
+.topt b{color:var(--gold);margin-right:8px}
+.topt.right{border-color:#17A398;background:#17A3981F}
+
+/* feedback */
+.pulse-big{font-family:Marcellus,serif;font-size:48px;line-height:1;color:var(--gold)}
+.pulse-big small{font-size:18px;color:var(--muted)}
+
+/* wishes */
+.wall{columns:3 240px;column-gap:14px}
+.wish{break-inside:avoid;margin:0 0 14px;padding:14px 15px 12px;border-radius:12px;background:var(--surface);
+  border:1px solid var(--line);border-top:3px solid var(--wc,var(--gold))}
+.wish p{margin:0 0 8px;font-size:14.5px;line-height:1.5}
+.wish .by{color:var(--muted);font-size:12.5px}
+
+/* kids */
+.kid-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px}
+.kid{border:1px solid var(--line);border-radius:12px;padding:13px;background:#FFFFFF06}
+.kid .who{font-family:Marcellus,serif;font-size:17px}
+.kid .what{font-size:13.5px;margin-top:5px}
+.kid .meta{color:var(--muted);font-size:12px;margin-top:6px}
+
+/* join card */
+.join{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center}
+.qr{background:#FFF;border-radius:10px;padding:8px;width:146px;height:146px;display:flex;align-items:center;justify-content:center}
+.qr img,.qr canvas{display:block;width:130px!important;height:130px!important}
+.join ul{margin:8px 0 0;padding-left:18px;color:var(--muted);font-size:13.5px;line-height:1.7}
+
+/* schedule */
+.sched-day{margin-top:14px}
+.sched-day:first-child{margin-top:0}
+.sched-day h4{margin:0 0 4px;font-family:Marcellus,serif;font-weight:400;font-size:15.5px;display:flex;align-items:center;gap:8px}
+.sched-day h4 i{width:10px;height:10px;border-radius:50%;display:inline-block;box-shadow:0 0 0 2px #FFFFFF22}
+.sched-item{display:grid;grid-template-columns:82px 1fr;gap:10px;font-size:13.5px;padding:5px 0}
+.sched-item .tm{color:var(--muted)}
+.sched-item.live .tm{color:var(--rani);font-weight:600}
+
+/* TV mode */
+body.tv .wrap{max-width:none;padding:22px 34px 40px;zoom:1.2}
+body.tv .masthead .btn, body.tv details.raw, body.tv footer{display:none}
+body.tv .tabs .tab:not([aria-selected="true"]){opacity:.45}
+.tv-exit{position:fixed;right:16px;bottom:16px;z-index:5;display:none}
+body.tv .tv-exit{display:inline-block}
+
+@media (max-width:980px){
+  .tonight-body{grid-template-columns:1fr}
+  .t-cell,.t-join{border-left:none;border-top:1px solid #FFFFFF10}
+  .t-cell:first-child{border-top:none}
+  .nom-row{grid-template-columns:1fr 60px}
+  .nom-row .nom-bars{grid-column:1 / -1;grid-row:2}
+  .join{grid-template-columns:1fr}
+  .topts{grid-template-columns:1fr}
+  .tabs .spacer,.tabs .btn{display:none}
+  #nomStats{grid-template-columns:1fr 1fr;gap:12px}
+  #nomStats .stat .n{font-size:24px}
+}
 </style>
 </head>
 <body>
@@ -198,6 +343,31 @@ footer{margin-top:34px;padding-top:16px;border-top:1px solid var(--line);
   </header>
 
   <div class="banner" id="banner" role="status"></div>
+
+  <!-- ===== FESTIVAL ADD-ON: tonight strip + tabs (new) ===== -->
+  <div class="tonight" id="tonight" aria-live="polite">
+    <div class="weave" aria-hidden="true"></div>
+    <div class="tonight-body">
+      <div class="t-cell" id="tDay"><div class="t-kicker">Navratri Utsav 2026</div><div class="t-big">Loading the programme&hellip;</div></div>
+      <div class="t-cell" id="tNow"></div>
+      <div class="t-cell" id="tNext"></div>
+      <div class="t-join" id="tJoin"></div>
+    </div>
+  </div>
+  <div class="fest-note" id="festNote" hidden></div>
+
+  <nav class="tabs" role="tablist" aria-label="Dashboard sections">
+    <button class="tab" role="tab" id="tab-budget" data-tab="budget" aria-controls="pane-budget">Budget &amp; readiness</button>
+    <button class="tab" role="tab" id="tab-live" data-tab="live" aria-controls="pane-live">Festival live</button>
+    <button class="tab" role="tab" id="tab-nominations" data-tab="nominations" aria-controls="pane-nominations">Nominations</button>
+    <button class="tab" role="tab" id="tab-towers" data-tab="towers" aria-controls="pane-towers">Towers &amp; Passport</button>
+    <button class="tab" role="tab" id="tab-community" data-tab="community" aria-controls="pane-community">Community</button>
+    <span class="spacer"></span>
+    <button class="btn" id="tvBtn" title="Full screen for the venue TV; rotates through the festival tabs">Venue TV mode</button>
+  </nav>
+
+  <div class="pane" id="pane-budget" role="tabpanel" aria-labelledby="tab-budget">
+  <!-- ===== existing dashboard below, unchanged ===== -->
 
   <!-- HERO -->
   <div class="hero">
@@ -320,6 +490,77 @@ footer{margin-top:34px;padding-top:16px;border-top:1px solid var(--line);
     <summary>Show the Dashboard tab exactly as it arrives from the sheet</summary>
     <div class="rawinner"><table id="rawTable"></table></div>
   </details>
+
+  </div><!-- /pane-budget -->
+
+  <!-- ===== FESTIVAL LIVE (new) ===== -->
+  <div class="pane" id="pane-live" role="tabpanel" aria-labelledby="tab-live" hidden>
+    <section>
+      <div class="sec-head"><h2 class="sec-title">Winners</h2><div class="sec-note" id="winNote"></div></div>
+      <div class="grid2">
+        <div class="panel"><h3>Results so far</h3><div class="sub">Updated as each event ends</div><div id="winners"></div></div>
+        <div class="panel"><h3>Audience choice</h3><div class="sub">One vote per family per category</div><div id="voting"></div></div>
+      </div>
+    </section>
+    <section>
+      <div class="sec-head"><h2 class="sec-title">Tonight and the programme</h2><div class="sec-note" id="schedNote"></div></div>
+      <div class="grid2">
+        <div class="panel"><h3>Full programme</h3><div class="sub">Each day carries its Navratri colour</div><div id="schedule"></div></div>
+        <div>
+          <div class="panel" style="margin-bottom:18px"><h3>Join in from your phone</h3><div class="sub">One form for everything during the festival</div><div id="joinCard"></div></div>
+          <div class="panel"><h3>Nightly feedback</h3><div class="sub">Average rating from families, out of 5</div><div id="feedback"></div></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ===== NOMINATIONS (new) ===== -->
+  <div class="pane" id="pane-nominations" role="tabpanel" aria-labelledby="tab-nominations" hidden>
+    <section>
+      <div class="sec-head"><h2 class="sec-title">Nominations by event</h2><div class="sec-note" id="nomNote"></div></div>
+      <div class="grid3" id="nomStats"></div>
+      <div class="panel" style="margin-top:18px"><h3>Every event taking nominations</h3>
+        <div class="sub">Bar length is entries against the busiest event; chips show where they come from</div>
+        <div id="nomList"></div></div>
+    </section>
+  </div>
+
+  <!-- ===== TOWERS & PASSPORT (new) ===== -->
+  <div class="pane" id="pane-towers" role="tabpanel" aria-labelledby="tab-towers" hidden>
+    <section>
+      <div class="sec-head"><h2 class="sec-title">Tower participation</h2><div class="sec-note" id="towerPartNote"></div></div>
+      <div class="panel"><h3>Families taking part, by tower</h3>
+        <div class="sub">A family counts once it nominates, checks in, votes, rates a night or posts a wish</div>
+        <div id="towerPart"></div></div>
+    </section>
+    <section>
+      <div class="sec-head"><h2 class="sec-title">Navratri Passport</h2><div class="sec-note" id="passNote"></div></div>
+      <div class="grid2">
+        <div class="panel"><h3>Leaderboard</h3><div class="sub">Families with the most points</div><div id="leaders"></div></div>
+        <div>
+          <div class="panel" style="margin-bottom:18px"><h3>Daily trivia</h3><div class="sub" id="triviaSub">A new question each day</div><div id="trivia"></div></div>
+          <div class="panel"><h3>How to earn points</h3><div class="sub">Every action goes through the Navratri Hub form</div><div id="rules"></div></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ===== COMMUNITY (new) ===== -->
+  <div class="pane" id="pane-community" role="tabpanel" aria-labelledby="tab-community" hidden>
+    <section>
+      <div class="sec-head"><h2 class="sec-title">Aarti and kids' corner</h2><div class="sec-note" id="aartiNote"></div></div>
+      <div class="grid2">
+        <div class="panel"><h3>Aarti host rota</h3><div class="sub">A different family leads the aarti each day</div><div id="aarti"></div></div>
+        <div class="panel"><h3>Kids' corner</h3><div class="sub">Children's events and what our little ones made</div><div id="kids"></div></div>
+      </div>
+    </section>
+    <section>
+      <div class="sec-head"><h2 class="sec-title">Wishes wall</h2><div class="sec-note" id="wishNote"></div></div>
+      <div class="wall" id="wishes"></div>
+    </section>
+  </div>
+
+  <button class="btn tv-exit" id="tvExit">Exit TV mode</button>
 
   <footer id="footer"></footer>
 </div>
@@ -816,5 +1057,403 @@ load();
 setInterval(load, Math.max(15, CONFIG.REFRESH_SECONDS) * 1000);
 document.addEventListener("visibilitychange", () => { if (!document.hidden) load(); });
 </script>
+<script>
+/* ============================================================
+   FESTIVAL ADD-ON — separate from the budget dashboard above.
+   Reads ?view=festival from the same web app. If it fails, only
+   these new panels are affected; the budget figures keep working.
+   ============================================================ */
+const FEST = {
+  TIME_ZONE: "Asia/Kolkata",
+  TV_ROTATE_SECONDS: 20,
+  LOW_ENTRY_THRESHOLD: 5,   // flag events with fewer entries than this...
+  LOW_ENTRY_DAYS: 3,        // ...when they are this many days away or closer
+  QR_LIB: "https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"
+};
+let FD = null;          // last good festival payload
+let festLastGood = null;
+
+const esc = s => String(s === null || s === undefined ? "" : s)
+  .replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const todayIST = () => new Intl.DateTimeFormat("en-CA", {timeZone: FEST.TIME_ZONE}).format(new Date());
+const atIST = (d, hhmm) => new Date(d + "T" + (hhmm || "00:00") + ":00+05:30");
+const dayLabel = (d, opts) => atIST(d, "12:00").toLocaleDateString("en-IN",
+  Object.assign({weekday:"short", day:"numeric", month:"short", timeZone: FEST.TIME_ZONE}, opts || {}));
+const time12 = hhmm => {
+  if (!hhmm) return "Time to be announced";
+  let [h, m] = hhmm.split(":").map(Number);
+  const ap = h >= 12 ? "PM" : "AM"; h = h % 12 || 12;
+  return h + (m ? ":" + String(m).padStart(2, "0") : "") + " " + ap;
+};
+const daysBetween = (a, b) => Math.round((atIST(b, "12:00") - atIST(a, "12:00")) / 86400000);
+const colourFor = d => (FD && FD.colours || []).find(c => c.date === d) || null;
+const readable = hex => {           // dark text on light swatches
+  const h = (hex || "#E9B44C").replace("#", "");
+  const [r, g, b] = [0, 2, 4].map(i => parseInt(h.substr(i, 2), 16));
+  return (r * 299 + g * 587 + b * 114) / 1000 > 150 ? "#1B0A2E" : "#F6ECD9";
+};
+const empty = msg => `<div class="empty">${msg}</div>`;
+
+/* ---------- tonight strip: re-rendered every 30 s from the cached payload ---------- */
+function renderTonight(){
+  if (!FD) return;
+  const today = todayIST(), now = new Date();
+  const colours = FD.colours || [];
+  const first = colours[0] && colours[0].date, last = colours.length ? colours[colours.length - 1].date : "";
+  const c = colourFor(today);
+  const shown = c || colours[0] || null;
+  document.documentElement.style.setProperty("--day", (shown && shown.hex) || "#E9B44C");
+
+  let dayHtml;
+  if (c){
+    dayHtml = `<div class="t-kicker">${esc(c.day)} of Navratri, ${esc(dayLabel(today, {weekday:"long"}))}</div>
+      <div class="t-big">${esc(c.devi)}</div>
+      <div class="t-line"><span class="chip-colour"><i></i>Today's colour is ${esc(c.colour.toLowerCase())}</span></div>`;
+  } else if (first && today < first){
+    const n = daysBetween(today, first);
+    dayHtml = `<div class="t-kicker">Navratri Utsav 2026</div>
+      <div class="t-big">${n === 1 ? "Begins tomorrow" : "Begins in " + n + " days"}</div>
+      <div class="t-line"><span class="chip-colour"><i></i>Day 1 colour: ${esc((shown.colour || "").toLowerCase())}, for ${esc(shown.devi)}</span></div>`;
+  } else if (last && today > last){
+    dayHtml = `<div class="t-kicker">Navratri Utsav 2026</div><div class="t-big">Thank you, Sensorium</div>
+      <div class="t-line muted">Ten days, one community. See you next year.</div>`;
+  } else {
+    dayHtml = `<div class="t-kicker">Navratri Utsav 2026</div><div class="t-big">11 to 20 October</div>`;
+  }
+  $("tDay").innerHTML = dayHtml;
+
+  const evs = (FD.schedule || []).filter(e => e.start).map(e => {
+    const s = atIST(e.date, e.start);
+    const en = e.end ? atIST(e.date, e.end) : new Date(s.getTime() + 2 * 3600e3);
+    return Object.assign({s, en}, e);
+  });
+  const live = evs.filter(e => e.s <= now && now < e.en);
+  const next = evs.find(e => e.s > now);
+
+  $("tNow").innerHTML = live.length
+    ? `<div class="t-kicker"><span class="now-dot"></span>Happening now</div>
+       ${live.map(e => `<div class="t-line"><b>${esc(e.title)}</b></div><div class="t-line muted">until ${time12(e.end || "")}${e.venue ? ", " + esc(e.venue) : ""}</div>`).join("")}`
+    : `<div class="t-kicker">Happening now</div><div class="t-line muted">${next && next.date === today ? "Nothing yet. Tonight's first event is next." : "Nothing on right now."}</div>`;
+
+  if (next){
+    const mins = Math.round((next.s - now) / 60000);
+    const when = next.date === today
+      ? (mins < 60 ? `in ${mins} min` : `in ${Math.floor(mins / 60)} h ${mins % 60 ? (mins % 60) + " min" : ""}`)
+      : (daysBetween(today, next.date) === 1 ? "tomorrow" : dayLabel(next.date));
+    $("tNext").innerHTML = `<div class="t-kicker">Up next, ${esc(when)}</div>
+      <div class="t-line"><b>${esc(next.title)}</b></div>
+      <div class="t-line muted">${time12(next.start)}${next.venue ? ", " + esc(next.venue) : ""}${next.audience && !/everyone/i.test(next.audience) ? " · " + esc(next.audience) : ""}</div>`;
+  } else {
+    $("tNext").innerHTML = `<div class="t-kicker">Up next</div><div class="t-line muted">${evs.length ? "That was the last event." : "The programme is being finalised."}</div>`;
+  }
+
+  $("tJoin").innerHTML = FD.hubFormUrl
+    ? `<a class="btn gold" href="${esc(FD.hubFormUrl)}" target="_blank" rel="noopener">Check in, vote or post a wish</a>` : "";
+}
+
+/* ---------- FESTIVAL LIVE ---------- */
+function renderLive(){
+  const today = todayIST();
+  // winners, grouped by event in the order they were added
+  const groups = [];
+  (FD.winners || []).forEach(w => {
+    let g = groups.find(x => x.event === w.event);
+    if (!g) groups.push(g = {event: w.event, list: []});
+    g.list.push(w);
+  });
+  const medal = p => /^1|first|gold/i.test(p) ? ["var(--gold)", "1st"] : /^2|second|silver/i.test(p) ? ["var(--silver)", "2nd"]
+    : /^3|third|bronze/i.test(p) ? ["var(--bronze)", "3rd"] : ["var(--peacock)", "★"];
+  $("winners").innerHTML = groups.length ? groups.slice().reverse().map(g => `<div class="win-event"><h4>${esc(g.event)}</h4>
+      ${g.list.map(w => { const [bg, t] = medal(w.position);
+        return `<div class="win-line"><span class="medal" style="background:${bg}">${t}</span>
+          <span>${esc(w.winner)}${w.tower ? `<span class="muted">, ${esc(w.tower)}</span>` : ""}${!/^[123]|first|second|third|gold|silver|bronze/i.test(w.position) && w.position ? ` <span class="muted">(${esc(w.position)})</span>` : ""}</span></div>`; }).join("")}
+    </div>`).join("")
+    : empty("Results appear here as each event ends.");
+  $("winNote").textContent = groups.length ? `${groups.length} event${groups.length > 1 ? "s" : ""} with results` : "";
+
+  // voting
+  const vs = FD.voting || [];
+  $("voting").innerHTML = vs.length ? vs.map(v => {
+    const peak = Math.max(1, ...v.results.map(r => r.votes));
+    const body = v.live && v.results.length
+      ? v.results.map((r, i) => barRow(esc(r.nominee), r.votes, peak, i === 0 && r.votes ? "#E9B44C" : "#B06AD8", `${r.votes} vote${r.votes === 1 ? "" : "s"}`)).join("")
+      : `<div class="muted" style="font-size:13.5px">${v.totalVotes} vote${v.totalVotes === 1 ? "" : "s"} so far. Results are revealed at the finale.</div>`;
+    return `<div style="margin-bottom:16px"><div style="font-size:14.5px;margin-bottom:8px">${esc(v.category)}
+      <span class="tag ${v.open ? "confirmed" : "auto"}" style="margin-left:6px">${v.open ? "Voting open" : "Closed"}</span></div>${body}</div>`;
+  }).join("") : empty("Voting opens on the dandiya nights. Use the Navratri Hub form to vote.");
+
+  // schedule grouped by day
+  const byDay = {};
+  (FD.schedule || []).forEach(e => (byDay[e.date] = byDay[e.date] || []).push(e));
+  const now = new Date();
+  $("schedule").innerHTML = Object.keys(byDay).length ? Object.keys(byDay).sort().map(d => {
+    const c = colourFor(d);
+    return `<div class="sched-day"><h4><i style="background:${c && c.hex ? c.hex : "#FFFFFF30"}"></i>${esc(dayLabel(d))}${d === today ? " (today)" : ""}${c ? ` <span class="muted" style="font-family:'IBM Plex Sans';font-size:12.5px">${esc(c.colour)}</span>` : ""}</h4>
+      ${byDay[d].map(e => { const s = e.start ? atIST(d, e.start) : null, en = e.end ? atIST(d, e.end) : (s ? new Date(s.getTime() + 2 * 3600e3) : null);
+        const isLive = s && s <= now && now < en;
+        return `<div class="sched-item ${isLive ? "live" : ""}"><span class="tm">${isLive ? "Now" : time12(e.start)}</span><span>${esc(e.title)}${e.audience && !/everyone/i.test(e.audience) ? ` <span class="muted">(${esc(e.audience)})</span>` : ""}</span></div>`; }).join("")}
+    </div>`; }).join("") : empty("The programme will be published here.");
+  $("schedNote").textContent = (FD.schedule || []).length ? `${(FD.schedule || []).length} events over ${Object.keys(byDay).length} days` : "";
+
+  // join card with QR
+  if (FD.hubFormUrl){
+    $("joinCard").innerHTML = `<div class="join"><div class="qr" id="qrBox" aria-label="QR code for the Navratri Hub form"></div>
+      <div><a class="btn gold" href="${esc(FD.hubFormUrl)}" target="_blank" rel="noopener">Open the Navratri Hub</a>
+      <ul><li>Check in each night for Passport points</li><li>Answer the daily trivia</li><li>Vote for audience choice</li>
+      <li>Rate the night, post a wish, host the aarti</li></ul></div></div>`;
+    drawQR(FD.hubFormUrl);
+  } else {
+    $("joinCard").innerHTML = empty("The Hub form link appears here once the committee sets it up.");
+  }
+
+  // feedback
+  const fb = FD.feedback || {nights: []};
+  if (fb.responses){
+    const latest = fb.nights[fb.nights.length - 1];
+    $("feedback").innerHTML = `<div style="display:flex;align-items:baseline;gap:14px;margin-bottom:14px">
+        <div class="pulse-big">${latest.average.toFixed(1)}<small> / 5</small></div>
+        <div class="muted" style="font-size:13.5px">${esc(dayLabel(latest.date))}, from ${latest.responses} famil${latest.responses === 1 ? "y" : "ies"}.<br>
+        ${Math.round(latest.happy / latest.responses * 100)}% rated it 4 or 5.</div></div>
+      ${fb.nights.slice().reverse().map(n => barRow(esc(dayLabel(n.date, {weekday: undefined})), n.average, 5, n.average >= 4 ? "#17A398" : n.average >= 3 ? "#E9B44C" : "#E0257A",
+        `${n.average.toFixed(1)} · ${n.responses}`)).join("")}
+      <div class="legend" style="margin-top:10px">Overall ${fb.overall.toFixed(1)} from ${fb.responses} ratings. Comments go straight to the committee.</div>`;
+  } else {
+    $("feedback").innerHTML = empty("Ratings start after the first night. Use “Rate tonight” on the Hub form.");
+  }
+}
+
+let qrLoading = false;
+function drawQR(url){
+  const box = $("qrBox"); if (!box) return;
+  const draw = () => { box.innerHTML = ""; new QRCode(box, {text: url, width: 130, height: 130, colorDark: "#1E0A33", colorLight: "#FFFFFF"}); };
+  if (window.QRCode) return draw();
+  if (qrLoading) return;
+  qrLoading = true;
+  const s = document.createElement("script");
+  s.src = FEST.QR_LIB;
+  s.onload = () => { qrLoading = false; if ($("qrBox")) draw(); };
+  s.onerror = () => { qrLoading = false; box.style.display = "none"; };
+  document.head.appendChild(s);
+}
+
+/* ---------- NOMINATIONS ---------- */
+function renderNominations(){
+  const n = FD.nominations;
+  if (!n){
+    $("nomStats").innerHTML = "";
+    $("nomList").innerHTML = empty("Nomination figures are not available right now.");
+    return;
+  }
+  const today = todayIST();
+  const evs = n.events;
+  const busiest = evs.slice().sort((a, b) => b.total - a.total)[0];
+  const flags = evs.reduce((s, e) => s + e.ageFlags + e.dupFlags, 0);
+  const upcoming = evs.filter(e => e.date >= today);
+  const low = upcoming.filter(e => daysBetween(today, e.date) <= FEST.LOW_ENTRY_DAYS && e.total < FEST.LOW_ENTRY_THRESHOLD);
+
+  $("nomStats").innerHTML = [
+    statTile(n.total.toLocaleString("en-IN"), "Nominations received", `Across ${evs.length} events`, "gold"),
+    statTile(n.participants.toLocaleString("en-IN"), "Residents taking part", "Each person counted once, however many events", "teal"),
+    statTile(busiest && busiest.total ? esc(busiest.name) : "\u2014", "Most popular so far",
+      busiest && busiest.total ? `${busiest.total} entries` : "Waiting for the first nomination", "marigold"),
+    statTile(String(low.length), "Events needing a push",
+      low.length ? `Fewer than ${FEST.LOW_ENTRY_THRESHOLD} entries with ${FEST.LOW_ENTRY_DAYS} days or less to go` : "No event is short of entries", low.length ? "rani" : "teal"),
+    statTile(String(flags), "Entries to double-check", flags ? "Age outside the event's group, or a possible repeat" : "Nothing flagged", flags ? "marigold" : "teal"),
+    statTile(String(upcoming.length), "Events still ahead", upcoming.length ? `Next: ${esc(upcoming.sort((a, b) => a.date.localeCompare(b.date))[0].name)}` : "All nominated events are done", "gold")
+  ].join("");
+
+  const peak = Math.max(1, ...evs.map(e => e.total));
+  const palette = ["#E9B44C","#F2751F","#E0257A","#17A398","#B06AD8","#EF9A3D","#D94F8C","#3FC1B4"];
+  $("nomList").innerHTML = evs.slice().sort((a, b) => a.date.localeCompare(b.date) || a.time.localeCompare(b.time)).map((e, i) => {
+    const d = daysBetween(today, e.date);
+    let flag = "";
+    if (d < 0) flag = `<span class="flag done">Event done</span>`;
+    else if (d <= FEST.LOW_ENTRY_DAYS && e.total < FEST.LOW_ENTRY_THRESHOLD) flag = `<span class="flag low">${e.total ? "Only " + e.total + (e.total === 1 ? " entry" : " entries") : "No entries yet"}, ${d === 0 ? "event is today" : d === 1 ? "1 day to go" : d + " days to go"}</span>`;
+    if (e.ageFlags + e.dupFlags) flag += ` <span class="flag check">${e.ageFlags + e.dupFlags} to double-check</span>`;
+    const towers = Object.keys(e.byTower).sort().map(t => `<span class="tchip">${esc(t)}: ${e.byTower[t]}</span>`).join("");
+    return `<div class="nom-row">
+      <div><div class="nom-name">${esc(e.name)}</div>
+        <div class="nom-meta">${esc(dayLabel(e.date))}, ${esc(e.time)} &#183; ${esc(e.age)}${e.detail ? " &#183; " + esc(e.detail) : ""}</div>${flag}</div>
+      <div class="nom-bars"><div class="bar-track"><div class="bar-fill" style="width:${pct(e.total, peak)}%;background:${palette[i % palette.length]}"></div></div>
+        <div class="tchips">${towers || '<span class="tchip">No entries yet</span>'}</div></div>
+      <div class="nom-count">${e.total}<small>${e.participants} ${e.participants === 1 ? "person" : "people"}</small></div>
+    </div>`;
+  }).join("");
+  $("nomNote").textContent = n.unmatched ? `${n.unmatched} entries did not match an event name` : `Live from the nomination form`;
+}
+
+/* ---------- TOWERS & PASSPORT ---------- */
+function renderTowersPassport(){
+  const ts = (FD.towers || []).slice();
+  const usePct = ts.length && ts.every(t => t.flats > 0);
+  ts.sort((a, b) => usePct ? b.pct - a.pct : b.families - a.families);
+  const peak = Math.max(1, ...ts.map(t => usePct ? t.pct : t.families));
+  const palette = ["#E9B44C","#F2751F","#E0257A","#17A398","#B06AD8","#EF9A3D","#D94F8C","#3FC1B4"];
+  $("towerPart").innerHTML = ts.length ? ts.map((t, i) => barRow(esc(t.tower), usePct ? t.pct : t.families, usePct ? 100 : peak,
+      palette[i % palette.length],
+      usePct ? `${fmtPct(t.pct)} · ${t.families}/${t.flats}` : `${t.families} famil${t.families === 1 ? "y" : "ies"}`)).join("")
+      + `<div class="legend" style="margin-top:12px">${usePct ? "Share of flats in each tower that have joined in. " : ""}Nominations and check-ins so far: ${
+        ts.map(t => `${esc(t.tower)} ${t.nominations} and ${t.checkins}`).join("; ")}.</div>`
+    : empty("Tower standings appear once families start nominating and checking in.");
+  const lead = ts[0];
+  $("towerPartNote").textContent = lead && (lead.families || 0) > 0 ? `${lead.tower} is leading` : "";
+
+  // leaderboard
+  const pp = FD.passport || {leaders: [], towers: []};
+  $("leaders").innerHTML = pp.leaders.length
+    ? `<ol class="leaders">${pp.leaders.map(l => `<li><span>${esc(l.label)}${l.named && l.tower ? ` <span class="muted" style="font-size:12.5px">${esc(l.tower)}</span>` : ""}
+        <span class="muted" style="font-size:12.5px;display:block">${l.nights} night${l.nights === 1 ? "" : "s"} checked in</span></span><span class="pts">${l.points} pts</span></li>`).join("")}</ol>
+       ${pp.towers.length ? `<div class="legend" style="margin-top:12px">Tower totals: ${pp.towers.map(t => `${esc(t.tower)} ${t.points}`).join(", ")}</div>` : ""}`
+    : empty("No points yet. Families earn points from the first check-in on 11 October.");
+  $("passNote").textContent = pp.families ? `${pp.families} families have points` : "";
+
+  // trivia
+  const tv = FD.trivia;
+  let tHtml = "";
+  if (tv && tv.today){
+    tHtml += `<div class="muted" style="font-size:12.5px">${esc(tv.today.theme)}</div><div class="tq">${esc(tv.today.question)}</div>
+      <div class="topts">${tv.today.options.map((o, i) => o ? `<div class="topt"><b>${"ABCD"[i]}</b>${esc(o)}</div>` : "").join("")}</div>
+      <div class="legend" style="margin-top:10px">${tv.today.answered} famil${tv.today.answered === 1 ? "y has" : "ies have"} answered. Answer on the Hub form; the answer appears tomorrow.</div>`;
+  } else if (tv && tv.nextDate){
+    tHtml += empty(`The first question goes live on ${esc(dayLabel(tv.nextDate, {weekday: "long"}))}.`);
+  } else {
+    tHtml += empty("No trivia today.");
+  }
+  if (tv && tv.yesterday){
+    const y = tv.yesterday, ai = "ABCD".indexOf(y.answer);
+    tHtml += `<div style="margin-top:18px;padding-top:14px;border-top:1px solid #FFFFFF12">
+      <div class="muted" style="font-size:12.5px">Answer to ${esc(dayLabel(y.date))}'s question</div>
+      <div style="font-size:14px;margin:4px 0 8px">${esc(y.question)}</div>
+      ${ai > -1 ? `<div class="topt right"><b>${y.answer}</b>${esc(y.options[ai])}</div>` : ""}
+      <div class="legend" style="margin-top:8px">${y.correct} of ${y.answered} got it right.</div></div>`;
+  }
+  $("trivia").innerHTML = tHtml;
+
+  const P = FD.points || {};
+  const rules = [["Check in at an evening event", P.checkin], ["Wear the colour of the day", P.colour], ["Nominate for an event", P.nomination],
+    ["Host the aarti", P.aarti], ["Get the trivia right", P.trivia], ["Kids' corner entry", P.kids], ["Rate the night", P.feedback],
+    ["Vote in a category", P.vote], ["Post a wish", P.wish]].filter(r => r[1]);
+  $("rules").innerHTML = `<div class="rules">${rules.map(r => `<span>${r[0]}</span><span>+${r[1]}</span>`).join("")}</div>
+    <div class="legend" style="margin-top:12px">Points count once per family per night for check-ins, colours, ratings and wishes.</div>`;
+}
+
+/* ---------- COMMUNITY ---------- */
+function renderCommunity(){
+  const today = todayIST();
+  const days = FD.aarti || [];
+  const needed = days.filter(d => d.date >= today && !d.slots.some(s => s.host)).length;
+  $("aarti").innerHTML = days.length ? `<div class="row-list">${days.map(d => {
+      const hosts = d.slots.filter(s => s.host);
+      const c = colourFor(d.date);
+      return `<div class="row-item ${d.date === today ? "today" : ""}">
+        <div><div class="title">${esc(dayLabel(d.date))}${d.date === today ? " (today)" : ""}${c ? ` <span class="muted" style="font-size:12.5px">${esc(c.devi)}</span>` : ""}</div>
+        <div class="meta">${hosts.length ? hosts.map(h => `${esc(h.slot)}: ${esc(h.host)}${h.tower ? ", " + esc(h.tower) : ""}`).join("; ")
+          : (d.date < today ? "No host recorded" : d.requests ? `${d.requests} famil${d.requests === 1 ? "y has" : "ies have"} asked to host` : "Host family needed")}</div></div>
+        <div>${hosts.length ? tagFor(hosts[0].status || "Confirmed") : (d.date >= today ? '<span class="tag planned">Open</span>' : "")}</div>
+      </div>`; }).join("")}</div>`
+    : empty("The aarti rota will appear here.");
+  $("aartiNote").textContent = needed ? `${needed} day${needed === 1 ? "" : "s"} still need a host family` : (days.length ? "Every day has a host family" : "");
+
+  const k = FD.kids || {entries: [], events: []};
+  const kEvents = (k.events || []).map(e => `<div class="row-item"><div><div class="title">${esc(e.name)}</div>
+      <div class="meta">${esc(dayLabel(e.date))}, ${esc(e.time)} &#183; ${esc(e.age)}</div></div>
+      <div class="figure">${e.total}<span class="muted" style="font-size:12px;font-family:'IBM Plex Sans'"> ${e.total === 1 ? "child" : "children"}</span></div></div>`).join("");
+  const kCards = k.entries.length ? `<div class="kid-grid" style="margin-top:14px">${k.entries.map(e => `<div class="kid">
+      <div class="who">${esc(e.name)}${e.age ? `, ${esc(e.age)}` : ""}</div><div class="what">${esc(e.entry)}</div>
+      <div class="meta">${esc(e.tower || "")}${e.tower ? ", " : ""}${esc(dayLabel(e.date))}</div></div>`).join("")}</div>`
+    : `<div class="empty" style="margin-top:12px">Little ones' creations appear here after a quick check by the committee.</div>`;
+  $("kids").innerHTML = (kEvents ? `<div class="row-list">${kEvents}</div>` : "") + kCards;
+
+  const ws = FD.wishes || [];
+  const tones = ["#E9B44C", "#E0257A", "#17A398", "#F2751F", "#B06AD8"];
+  $("wishes").innerHTML = ws.length ? ws.map((w, i) => `<div class="wish" style="--wc:${tones[i % tones.length]}">
+      <p>${esc(w.text)}</p><div class="by">${esc(w.name)}, ${esc(dayLabel(w.date))}</div></div>`).join("")
+    : `<div class="panel">${empty("Be the first to post a festive wish. Choose “Post a wish” on the Navratri Hub form.")}</div>`;
+  $("wishNote").textContent = ws.length ? `${ws.length} wish${ws.length === 1 ? "" : "es"}` : "";
+}
+
+/* ---------- render + fetch ---------- */
+function renderFestival(){
+  const parts = [renderTonight, renderLive, renderNominations, renderTowersPassport, renderCommunity];
+  parts.forEach(fn => { try { fn(); } catch (e) { console.error(fn.name, e); } });
+}
+function festNote(msg, isError){
+  const el = $("festNote");
+  el.hidden = !msg; el.className = "fest-note" + (isError ? " error" : ""); el.innerHTML = msg || "";
+}
+function loadFestival(){
+  if (!CONFIG.WEB_APP_URL || CONFIG.WEB_APP_URL.indexOf("PASTE_") === 0) return;
+  jsonp(CONFIG.WEB_APP_URL + "?view=festival", (err, data) => {
+    if (err || !data){
+      festNote((err ? err.message : "No answer from the web app.") + (festLastGood ? " Festival panels show the read from " + festLastGood.toLocaleTimeString("en-IN") + "." : ""), true);
+      return;
+    }
+    if (data.view !== "festival"){
+      festNote("Festival panels need the updated web app. In Apps Script: Deploy > Manage deployments > Edit > Version: New version > Deploy.", true);
+      return;
+    }
+    if (!data.ok){ festNote("Festival panels: " + esc(data.error || "the web app returned an error."), true); return; }
+    FD = data; festLastGood = new Date();
+    festNote((data.warnings || []).length ? "Some festival panels could not load: " + data.warnings.map(esc).join("; ") : "", true);
+    renderFestival();
+  });
+}
+
+/* ---------- tabs (hash-linkable, e.g. ...#nominations) ---------- */
+const TABS = ["budget", "live", "nominations", "towers", "community"];
+function showTab(name, fromUser){
+  if (TABS.indexOf(name) < 0) name = "budget";
+  TABS.forEach(t => {
+    $("pane-" + t).hidden = t !== name;
+    $("tab-" + t).setAttribute("aria-selected", t === name ? "true" : "false");
+    $("tab-" + t).tabIndex = t === name ? 0 : -1;
+  });
+  if (fromUser && history.replaceState) history.replaceState(null, "", "#" + name);
+}
+document.querySelectorAll(".tab").forEach(b => {
+  b.addEventListener("click", () => showTab(b.dataset.tab, true));
+  b.addEventListener("keydown", e => {
+    const i = TABS.indexOf(b.dataset.tab);
+    if (e.key === "ArrowRight" || e.key === "ArrowLeft"){
+      const n = TABS[(i + (e.key === "ArrowRight" ? 1 : TABS.length - 1)) % TABS.length];
+      showTab(n, true); $("tab-" + n).focus();
+    }
+  });
+});
+(function initialTab(){
+  const h = (location.hash || "").replace("#", "");
+  if (TABS.indexOf(h) > -1) return showTab(h);
+  const t = todayIST();
+  showTab(t >= "2026-10-11" && t <= "2026-10-20" ? "live" : "budget");
+})();
+
+/* ---------- venue TV mode ---------- */
+let tvTimer = null;
+function tvOn(){
+  document.body.classList.add("tv");
+  if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen().catch(() => {});
+  const rot = ["live", "nominations", "towers", "community"];
+  let i = Math.max(0, rot.indexOf(TABS.find(t => !$("pane-" + t).hidden)));
+  showTab(rot[i]);
+  clearInterval(tvTimer);
+  tvTimer = setInterval(() => { i = (i + 1) % rot.length; showTab(rot[i]); window.scrollTo(0, 0); }, FEST.TV_ROTATE_SECONDS * 1000);
+}
+function tvOff(){
+  document.body.classList.remove("tv");
+  clearInterval(tvTimer); tvTimer = null;
+  if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen().catch(() => {});
+}
+$("tvBtn").addEventListener("click", tvOn);
+$("tvExit").addEventListener("click", tvOff);
+document.addEventListener("fullscreenchange", () => { if (!document.fullscreenElement && tvTimer) tvOff(); });
+
+/* ---------- schedule: same cadence as the budget dashboard ---------- */
+$("refresh").addEventListener("click", loadFestival);
+loadFestival();
+setInterval(loadFestival, Math.max(15, CONFIG.REFRESH_SECONDS) * 1000);
+setInterval(renderTonight, 30000);
+document.addEventListener("visibilitychange", () => { if (!document.hidden) loadFestival(); });
+</script>
+
 </body>
 </html>
