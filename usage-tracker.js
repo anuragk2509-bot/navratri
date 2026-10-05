@@ -1,8 +1,8 @@
-/* usage-tracker.js — Navratri 2026 dashboard usage beacon (v2)
+/* usage-tracker.js — Navratri 2026 dashboard usage beacon (v6)
  *
  * SETUP: paste your Apps Script /exec URL below (the same one the dashboard uses).
  * Include once in index.html, just before </body>:
- *   <script src="usage-tracker.js?v=2"></script>
+ *   <script src="usage-tracker.js?v=6"></script>  (raise the number each time you upload a new version)
  *
  * What counts as a visit:
  *   - every page load or refresh
@@ -14,7 +14,7 @@
  * Custom actions: nvTrack('venue_mode')
  */
 (function () {
-  var TRACK_URL = 'https://script.google.com/macros/s/AKfycbznidnEFfz1rEoDmekOrC_i8bl7PzlsL7uIhfycDaL9jPy50499omxzyMZ8KQB8FH0k/exec';
+  var TRACK_URL = 'PASTE_YOUR_EXEC_URL_HERE';
   var NEW_VISIT_AFTER_MIN = 30;
 
   var url = (TRACK_URL && TRACK_URL.indexOf('PASTE') !== 0) ? TRACK_URL
@@ -72,7 +72,7 @@
     };
     s.onerror = function () { cleanup(); badge('Tracker: could not reach the web app', false); };
     s.src = url + (url.indexOf('?') < 0 ? '?' : '&') + new URLSearchParams({
-      view: 'ping', ev: ev, vid: vid, sid: sid, src: src, dev: dev, d: detail || '', callback: cb, t: Date.now()
+      view: 'ping', ev: ev, vid: vid, ses: sid, src: src, dev: dev, d: detail || '', callback: cb, t: Date.now()
     }).toString();
     (document.head || document.documentElement).appendChild(s);
   }
