@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dashboard usage · Sensorium Navratri Utsav 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rozha+One&family=Mukta:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --night:#150F33; --panel:#1E1745; --panel-2:#251C55; --ivory:#F6EBD9; --muted:#A99FCC;
+    --gold:#E8B04B; --marigold:#F28C28; --lav:#8F7FE0; --teal:#4FB7A6; --kumkum:#C2283A;
+    --line:rgba(246,235,217,.12);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:var(--night); color:var(--ivory); font:400 15px/1.5 "Mukta",system-ui,sans-serif}
+  main{max-width:1180px; margin:0 auto; padding:28px 20px 56px}
+  h1,h2{font-family:"Rozha One",Georgia,serif; font-weight:400; margin:0}
+  header{display:flex; justify-content:space-between; align-items:flex-end; gap:16px; flex-wrap:wrap; margin-bottom:22px}
+  h1{font-size:clamp(28px,5vw,40px); line-height:1.1}
+  .fest{color:var(--muted); margin:2px 0 0}
+  .asof{display:flex; align-items:center; gap:10px; color:var(--muted); font-size:14px}
+  .dot{width:9px; height:9px; border-radius:50%; background:var(--teal); box-shadow:0 0 0 0 rgba(79,183,166,.6); animation:pulse 2s infinite}
+  @keyframes pulse{70%{box-shadow:0 0 0 8px rgba(79,183,166,0)}100%{box-shadow:0 0 0 0 rgba(79,183,166,0)}}
+  button{font:500 14px "Mukta",sans-serif; color:var(--ivory); background:var(--panel-2); border:1px solid var(--line);
+         border-radius:8px; padding:6px 12px; cursor:pointer}
+  button:hover{border-color:var(--gold)}
+  button:focus-visible{outline:2px solid var(--gold); outline-offset:2px}
+
+  /* KPIs */
+  .kpis{display:grid; grid-template-columns:repeat(4,1fr); gap:12px}
+  .kpi{background:var(--panel); border-radius:12px; padding:16px 18px; border-top:3px solid var(--line)}
+  .kpi.hero{border-top-color:var(--gold); background:linear-gradient(180deg,#2B2060,var(--panel))}
+  .kpi.today{border-top-color:var(--teal)}
+  .kpi .k{color:var(--muted); font-size:14px}
+  .kpi .v{font-family:"Rozha One",Georgia,serif; font-size:36px; line-height:1.15; margin-top:2px}
+  .kpi.hero .v{color:var(--gold)}
+  .kpi .s{font-size:13px; color:var(--muted)}
+  .kpi .s b{color:var(--teal); font-weight:700}
+
+  /* panels */
+  .grid{display:grid; grid-template-columns:repeat(12,1fr); gap:12px; margin-top:12px}
+  .panel{background:var(--panel); border-radius:12px; padding:18px 18px 14px; min-width:0}
+  .w12{grid-column:span 12} .w8{grid-column:span 8} .w6{grid-column:span 6} .w4{grid-column:span 4}
+  .panel h2{font-size:20px; line-height:1.25}
+  .panel .sub{color:var(--muted); font-size:13px; margin:2px 0 12px}
+  .legend{display:flex; flex-wrap:wrap; gap:14px; font-size:13px; color:var(--muted); margin-bottom:8px}
+  .legend i{display:inline-block; width:10px; height:10px; border-radius:3px; margin-right:6px; vertical-align:-1px}
+  svg{display:block; width:100%; height:auto; overflow:visible}
+  svg text{font-family:"Mukta",sans-serif; fill:var(--muted)}
+  .axis line{stroke:var(--line)}
+
+  /* donut */
+  .donut{display:flex; align-items:center; gap:18px}
+  .donut svg{width:150px; flex:none}
+  .donut ul{list-style:none; margin:0; padding:0; flex:1; min-width:0}
+  .donut li{display:grid; grid-template-columns:12px 1fr auto; gap:8px; align-items:center; padding:5px 0; border-bottom:1px solid var(--line)}
+  .donut li span:last-child{font-weight:700}
+  .donut li small{color:var(--muted); font-weight:400}
+  .sw{width:12px; height:12px; border-radius:3px}
+
+  /* bars */
+  .bars{list-style:none; margin:0; padding:0}
+  .bars li{display:grid; grid-template-columns:minmax(90px,38%) 1fr 44px; gap:10px; align-items:center; padding:6px 0}
+  .bars .track{display:block; height:9px; background:var(--line); border-radius:5px; overflow:hidden}
+  .bars .fill{display:block; height:100%; background:var(--gold); border-radius:5px}
+  .bars .v{text-align:right; font-weight:700}
+
+  /* table */
+  .tablewrap{overflow-x:auto}
+  table{width:100%; border-collapse:collapse; font-size:14px; white-space:nowrap}
+  th,td{padding:8px 10px; text-align:right; border-bottom:1px solid var(--line)}
+  th:first-child,td:first-child{text-align:left}
+  th{color:var(--muted); font-weight:500}
+  tr.today td{background:rgba(79,183,166,.10)}
+  tr.fest td:first-child::after{content:""; display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--gold); margin-left:8px; vertical-align:2px}
+  tfoot td{font-weight:700; border-top:2px solid var(--gold); border-bottom:0}
+
+  .note{background:var(--panel); border-left:3px solid var(--gold); padding:14px 16px; border-radius:0 10px 10px 0; margin-top:12px}
+  .muted{color:var(--muted)}
+  [hidden]{display:none!important}
+
+  @media (max-width:900px){
+    .kpis{grid-template-columns:repeat(2,1fr)}
+    .w8,.w6,.w4{grid-column:span 12}
+  }
+  @media (max-width:420px){
+    main{padding:20px 12px 40px}
+    .kpi{padding:12px 14px} .kpi .v{font-size:28px}
+    .donut svg{width:120px}
+  }
+  @media (prefers-reduced-motion:reduce){.dot{animation:none}}
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div>
+      <h1>Dashboard usage</h1>
+      <p class="fest">Sensorium Navratri Utsav 2026 festival dashboard</p>
+    </div>
+    <div class="asof"><span class="dot" aria-hidden="true"></span><span id="asof">Loading…</span><button type="button" id="refresh">Refresh</button></div>
+  </header>
+
+  <div id="error" class="note" hidden></div>
+  <div id="empty" class="note" hidden>No visits logged yet. Numbers appear here once the tracker is live on the dashboard and people open it.</div>
+
+  <div id="report" hidden>
+    <section class="kpis" id="kpis" aria-label="Key numbers"></section>
+
+    <div class="grid">
+      <section class="panel w8">
+        <h2>Daily footfall</h2>
+        <p class="sub">Unique users and total visits each day. Gold dots mark festival days.</p>
+        <div class="legend"><span><i style="background:var(--gold)"></i>Users</span><span><i style="background:var(--lav)"></i>Visits</span></div>
+        <div id="chDaily"></div>
+      </section>
+      <section class="panel w4">
+        <h2>Users by device</h2>
+        <p class="sub">Each user counted once, by the device they first used.</p>
+        <div class="donut" id="chDevice"></div>
+      </section>
+
+      <section class="panel w6">
+        <h2>Total users to date</h2>
+        <p class="sub">Running total of unique users since tracking began.</p>
+        <div id="chCum"></div>
+      </section>
+      <section class="panel w6">
+        <h2>Visits by device, each day</h2>
+        <p class="sub">How the mix of phones and screens changes day to day.</p>
+        <div class="legend" id="devLegend"></div>
+        <div id="chDevDay"></div>
+      </section>
+
+      <section class="panel w8">
+        <h2>Busiest times of day</h2>
+        <p class="sub" id="hourSub">All visits to date, by hour (IST).</p>
+        <div id="chHour"></div>
+      </section>
+      <section class="panel w4">
+        <h2>Where users came from</h2>
+        <p class="sub">Link source on each user's first visit.</p>
+        <ul class="bars" id="chSource"></ul>
+      </section>
+
+      <section class="panel w12">
+        <h2>Day-wise breakdown</h2>
+        <p class="sub">Every day since tracking began, with totals to date.</p>
+        <div class="tablewrap"><table id="tbl"></table></div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<script>
+/* ---------- settings ---------- */
+const WEB_APP_URL    = 'https://script.google.com/macros/s/AKfycbzjXbAj20Lw3COJth2Pd-FjHuOWnflPqaCM0GVDhML03AiDAtTjbOJhJZNTMAzLVJ5X/exec';   // same /exec URL as the main dashboard
+const TOTAL_FAMILIES = 823;                            // flats in Sensorium, e.g. 480 (0 hides the reach KPI)
+const FESTIVAL_START = '2026-10-11';
+const FESTIVAL_END   = '2026-10-20';
+const REFRESH_MS     = 2 * 60 * 1000;
+
+const DEVICE_COLOURS = { mobile:'#E8B04B', desktop:'#8F7FE0', tablet:'#4FB7A6', 'large screen':'#F28C28', unknown:'#6B6390' };
+const SOURCE_NAMES   = { wa:'WhatsApp', whatsapp:'WhatsApp', qr:'Venue QR code', direct:'Direct or saved link', insta:'Instagram', test:'Testing' };
+
+/* ---------- helpers ---------- */
+const $ = id => document.getElementById(id);
+const fmt = n => Number(n || 0).toLocaleString('en-IN');
+const pct = (a, b) => b ? Math.round(a / b * 100) : 0;
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const cap = s => String(s).charAt(0).toUpperCase() + String(s).slice(1);
+const devColour = d => DEVICE_COLOURS[d] || '#6B6390';
+const short = iso => new Date(iso + 'T00:00:00').toLocaleDateString('en-IN', { day:'numeric', month:'short' });
+const isFest = iso => iso >= FESTIVAL_START && iso <= FESTIVAL_END;
+const hourLabel = h => (h % 12 || 12) + (h < 12 ? ' am' : ' pm');
+
+function dayRange(from, to) {
+  const out = [], d = new Date(from + 'T00:00:00'), end = new Date(to + 'T00:00:00');
+  while (d <= end) {
+    out.push(d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'));
+    d.setDate(d.getDate() + 1);
+  }
+  return out;
+}
+function niceMax(v) { const raw = Math.max(1, v / 4), p = Math.pow(10, Math.floor(Math.log10(raw))); const step = [1, 2, 2.5, 5, 10].map(m => m * p).find(s => s >= raw && Number.isInteger(s)) || Math.ceil(raw); return step * 4; }
+
+function jsonp(url) {
+  return new Promise((resolve, reject) => {
+    const cb = 'use_' + Date.now(), s = document.createElement('script');
+    const t = setTimeout(() => { done(); reject(new Error('timeout')); }, 20000);
+    function done() { clearTimeout(t); delete window[cb]; s.remove(); }
+    window[cb] = data => { done(); resolve(data); };
+    s.onerror = () => { done(); reject(new Error('network')); };
+    s.src = url + (url.includes('?') ? '&' : '?') + 'view=impact&callback=' + cb;
+    document.head.appendChild(s);
+  });
+}
+
+/* ---------- SVG chart builders ---------- */
+let W = 640, H = 240, LABELS = 12;
+const P = { l: 36, r: 8, t: 14, b: 34 };
+function sizeCharts() { const m = window.innerWidth < 600; W = m ? 360 : 640; H = m ? 230 : 240; LABELS = m ? 6 : 12; }
+
+function frame(max, labels, opts = {}) {
+  const iw = W - P.l - P.r, ih = H - P.t - P.b, n = labels.length;
+  const step = Math.max(1, Math.ceil(n / Math.min(opts.maxLabels || 12, LABELS)));
+  let g = '<g class="axis">';
+  for (let i = 0; i <= 4; i++) {
+    const y = P.t + ih - ih * i / 4;
+    g += `<line x1="${P.l}" x2="${W - P.r}" y1="${y}" y2="${y}"/><text x="${P.l - 6}" y="${y + 4}" text-anchor="end" font-size="11">${fmt(Math.round(max * i / 4))}</text>`;
+  }
+  labels.forEach((l, i) => {
+    if (i !== n - 1 && (i % step || n - 1 - i < step)) return;
+    const x = P.l + iw * (i + .5) / n;
+    g += `<text x="${x}" y="${H - P.b + 16}" text-anchor="middle" font-size="11">${esc(l.text)}</text>`;
+    if (l.fest) g += `<circle cx="${x}" cy="${H - P.b + 26}" r="2.5" fill="#E8B04B"/>`;
+  });
+  return { g: g + '</g>', iw, ih, n, x: i => P.l + iw * (i + .5) / n, y: v => P.t + ih - ih * v / max, bw: iw / n };
+}
+
+function svg(inner) { return `<svg viewBox="0 0 ${W} ${H}" role="img">${inner}</svg>`; }
+
+function dailyChart(days) {
+  const max = niceMax(Math.max(1, ...days.map(d => d.opens)));
+  const f = frame(max, days.map(d => ({ text: short(d.date), fest: isFest(d.date) })));
+  const bw = Math.min(28, f.bw * .62);
+  let bars = '', pts = [];
+  days.forEach((d, i) => {
+    const x = f.x(i), y = f.y(d.visitors);
+    bars += `<rect x="${x - bw / 2}" y="${y}" width="${bw}" height="${f.y(0) - y}" rx="3" fill="#E8B04B"><title>${short(d.date)}: ${fmt(d.visitors)} users, ${fmt(d.opens)} visits</title></rect>`;
+    pts.push([x, f.y(d.opens)]);
+  });
+  const line = `<polyline points="${pts.map(p => p.join(',')).join(' ')}" fill="none" stroke="#8F7FE0" stroke-width="2.5" stroke-linejoin="round"/>` +
+    pts.map((p, i) => `<circle cx="${p[0]}" cy="${p[1]}" r="3.5" fill="#150F33" stroke="#8F7FE0" stroke-width="2"><title>${short(days[i].date)}: ${fmt(days[i].opens)} visits</title></circle>`).join('');
+  return svg(f.g + bars + line);
+}
+
+function cumulativeChart(days) {
+  const max = niceMax(Math.max(1, ...days.map(d => d.cumulativeVisitors)));
+  const f = frame(max, days.map(d => ({ text: short(d.date), fest: isFest(d.date) })));
+  const pts = days.map((d, i) => [f.x(i), f.y(d.cumulativeVisitors)]);
+  const area = `M${pts[0][0]},${f.y(0)} ` + pts.map(p => 'L' + p.join(',')).join(' ') + ` L${pts[pts.length - 1][0]},${f.y(0)} Z`;
+  const last = pts[pts.length - 1], lastD = days[days.length - 1];
+  return svg(f.g +
+    `<defs><linearGradient id="cg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E8B04B" stop-opacity=".45"/><stop offset="1" stop-color="#E8B04B" stop-opacity="0"/></linearGradient></defs>` +
+    `<path d="${area}" fill="url(#cg)"/><polyline points="${pts.map(p => p.join(',')).join(' ')}" fill="none" stroke="#E8B04B" stroke-width="2.5"/>` +
+    pts.map((p, i) => `<circle cx="${p[0]}" cy="${p[1]}" r="3" fill="#E8B04B"><title>${short(days[i].date)}: ${fmt(days[i].cumulativeVisitors)} users to date (+${fmt(days[i].newVisitors)} new)</title></circle>`).join('') +
+    `<text x="${last[0]}" y="${last[1] - 10}" text-anchor="end" font-size="14" font-weight="700" style="fill:#F6EBD9">${fmt(lastD.cumulativeVisitors)}</text>`);
+}
+
+function deviceDayChart(days, devs) {
+  const max = niceMax(Math.max(1, ...days.map(d => d.opens)));
+  const f = frame(max, days.map(d => ({ text: short(d.date), fest: isFest(d.date) })));
+  const bw = Math.min(28, f.bw * .62);
+  let out = '';
+  days.forEach((d, i) => {
+    let acc = 0;
+    devs.forEach(dev => {
+      const v = (d.devices || {})[dev] || 0; if (!v) return;
+      const y1 = f.y(acc + v), y0 = f.y(acc); acc += v;
+      out += `<rect x="${f.x(i) - bw / 2}" y="${y1}" width="${bw}" height="${y0 - y1}" fill="${devColour(dev)}"><title>${short(d.date)}, ${cap(dev)}: ${fmt(v)} visits</title></rect>`;
+    });
+  });
+  return svg(f.g + out);
+}
+
+function hourChart(hours) {
+  const max = niceMax(Math.max(1, ...hours));
+  const peak = Math.max(...hours);
+  const f = frame(max, hours.map((_, h) => ({ text: hourLabel(h) })), { maxLabels: 8 });
+  const bw = f.bw * .7;
+  return svg(f.g + hours.map((v, h) => {
+    const y = f.y(v);
+    return `<rect x="${f.x(h) - bw / 2}" y="${y}" width="${bw}" height="${f.y(0) - y}" rx="2" fill="${v && v === peak ? '#F28C28' : '#8F7FE0'}"><title>${hourLabel(h)}: ${fmt(v)} visits</title></rect>`;
+  }).join(''));
+}
+
+function donut(el, users, visits) {
+  const total = users.reduce((a, x) => a + x.count, 0) || 1;
+  const r = 52, c = 2 * Math.PI * r;
+  let off = 0, arcs = '';
+  users.forEach(x => {
+    const len = x.count / total * c;
+    arcs += `<circle cx="70" cy="70" r="${r}" fill="none" stroke="${devColour(x.name)}" stroke-width="22" stroke-dasharray="${len} ${c - len}" stroke-dashoffset="${-off}" transform="rotate(-90 70 70)"><title>${cap(x.name)}: ${fmt(x.count)} users</title></circle>`;
+    off += len;
+  });
+  const top = users[0];
+  const vmap = Object.fromEntries((visits || []).map(v => [v.name, v.count]));
+  el.innerHTML = `<svg viewBox="0 0 140 140" role="img" aria-label="Users by device">${arcs}
+      <text x="70" y="68" text-anchor="middle" font-size="22" font-family="Rozha One,Georgia,serif" style="fill:#F6EBD9">${pct(top.count, total)}%</text>
+      <text x="70" y="86" text-anchor="middle" font-size="11">${esc(cap(top.name))}</text></svg>
+    <ul>${users.map(x => `<li><span class="sw" style="background:${devColour(x.name)}"></span><span>${esc(cap(x.name))}<br><small>${fmt(vmap[x.name] || 0)} visits</small></span><span>${fmt(x.count)}</span></li>`).join('')}</ul>`;
+}
+
+function bars(el, list, names) {
+  const max = Math.max(1, ...list.map(x => x.count));
+  el.innerHTML = list.slice(0, 7).map(x => `<li><span>${esc((names && names[String(x.name).toLowerCase()]) || x.name)}</span><span class="track"><span class="fill" style="width:${x.count / max * 100}%"></span></span><span class="v">${fmt(x.count)}</span></li>`).join('');
+}
+
+/* ---------- render ---------- */
+function render(d) {
+  lastData = d;
+  if (!d.ok) return fail('The web app returned an error: ' + d.error);
+  $('asof').textContent = 'As of ' + new Date(d.generatedAt).toLocaleString('en-IN', { day:'numeric', month:'short', hour:'numeric', minute:'2-digit' });
+  if (!d.uniqueVisitors) { $('empty').hidden = false; $('report').hidden = true; return; }
+  $('empty').hidden = true; $('error').hidden = true; $('report').hidden = false;
+
+  // fill gaps so every day from first visit to today appears
+  const byDay = Object.fromEntries(d.days.map(x => [x.date, x]));
+  const first = d.days[0].date, lastDay = d.today > d.days[d.days.length - 1].date ? d.today : d.days[d.days.length - 1].date;
+  let cum = 0;
+  const days = dayRange(first, lastDay).map(date => {
+    const x = byDay[date] || { date, opens:0, visitors:0, newVisitors:0, devices:{} };
+    cum = x.cumulativeVisitors || cum;
+    return { ...x, cumulativeVisitors: cum };
+  });
+  const devs = d.deviceVisits.map(x => x.name);
+
+  // KPIs
+  const k = [
+    ['hero', 'Total users to date', fmt(d.uniqueVisitors), TOTAL_FAMILIES ? `${pct(d.uniqueVisitors, TOTAL_FAMILIES)}% of ${fmt(TOTAL_FAMILIES)} households` : 'Unique devices'],
+    ['', 'Total visits to date', fmt(d.totalOpens), `${(d.totalOpens / d.uniqueVisitors).toFixed(1)} visits per user`],
+    ['today', 'Users today', fmt(d.todayVisitors), `<b>+${fmt(d.todayNew)}</b> first-time users`],
+    ['today', 'Visits today', fmt(d.todayOpens), short(d.today)],
+    ['', 'Returning users', pct(d.returningVisitors, d.uniqueVisitors) + '%', `${fmt(d.returningVisitors)} came back on another day`],
+    ['', 'Stayed a minute or more', pct(d.engagedSessions, d.sessions) + '%', 'of all visits'],
+    ['', 'Busiest day', d.peakDay ? short(d.peakDay.date) : '–', d.peakDay ? `${fmt(d.peakDay.visitors)} users, ${fmt(d.peakDay.opens)} visits` : ''],
+    ['', 'Peak hour', d.peakHour == null ? '–' : hourLabel(d.peakHour), d.peakHour == null ? '' : `${fmt(d.hours[d.peakHour])} visits in this hour`]
+  ];
+  $('kpis').innerHTML = k.map(x => `<div class="kpi ${x[0]}"><div class="k">${x[1]}</div><div class="v">${x[2]}</div><div class="s">${x[3]}</div></div>`).join('');
+
+  // charts
+  sizeCharts();
+  $('chDaily').innerHTML = dailyChart(days);
+  $('chCum').innerHTML = cumulativeChart(days);
+  $('devLegend').innerHTML = devs.map(x => `<span><i style="background:${devColour(x)}"></i>${esc(cap(x))}</span>`).join('');
+  $('chDevDay').innerHTML = deviceDayChart(days, devs);
+  donut($('chDevice'), d.devices, d.deviceVisits);
+  $('chHour').innerHTML = hourChart(d.hours);
+  $('hourSub').textContent = 'All visits to date, by hour (IST).' + (d.peakHour != null ? ` Busiest: ${hourLabel(d.peakHour)}.` : '');
+  bars($('chSource'), d.sources, SOURCE_NAMES);
+
+  // table
+  const devHead = devs.map(x => `<th>${esc(cap(x))}</th>`).join('');
+  const rows = days.slice().reverse().map(x => `<tr class="${x.date === d.today ? 'today' : ''} ${isFest(x.date) ? 'fest' : ''}">
+      <td>${short(x.date)}${x.date === d.today ? ' (today)' : ''}</td><td>${fmt(x.visitors)}</td><td>${fmt(x.newVisitors)}</td><td>${fmt(x.opens)}</td>
+      ${devs.map(dev => `<td>${fmt((x.devices || {})[dev] || 0)}</td>`).join('')}<td>${fmt(x.cumulativeVisitors)}</td></tr>`).join('');
+  $('tbl').innerHTML = `<thead><tr><th>Date</th><th>Users</th><th>New users</th><th>Visits</th>${devHead}<th>Users to date</th></tr></thead>
+    <tbody>${rows}</tbody>
+    <tfoot><tr><td>Total to date</td><td>${fmt(d.uniqueVisitors)}</td><td>${fmt(d.uniqueVisitors)}</td><td>${fmt(d.totalOpens)}</td>
+      ${devs.map(dev => `<td>${fmt((d.deviceVisits.find(v => v.name === dev) || {}).count)}</td>`).join('')}<td>${fmt(d.uniqueVisitors)}</td></tr></tfoot>`;
+}
+
+function fail(msg) { $('error').hidden = false; $('error').textContent = msg; $('asof').textContent = 'Not updated'; }
+
+async function load() {
+  if (new URLSearchParams(location.search).get('demo') === '1') return render(demo());
+  if (!WEB_APP_URL || WEB_APP_URL.startsWith('PASTE')) return fail('Add the Apps Script /exec URL to WEB_APP_URL in usage.html, then upload it again.');
+  try { render(await jsonp(WEB_APP_URL)); }
+  catch (e) { fail("Couldn't reach the web app. Check WEB_APP_URL and that the latest version is deployed (Manage deployments → Edit → New version)."); }
+}
+$('refresh').addEventListener('click', load);
+let lastData = null, rz;
+window.addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => lastData && render(lastData), 250); });
+
+/* Preview with ?demo=1 */
+function demo() {
+  const dates = dayRange('2026-10-04', '2026-10-15');
+  const users = [18, 26, 31, 40, 52, 61, 95, 182, 156, 141, 168, 204];
+  let cum = 0, opens = 0;
+  const days = dates.map((date, i) => {
+    const v = users[i], o = Math.round(v * (1.3 + i * .04)), n = Math.round(v * (i < 7 ? .7 : .25));
+    cum += n; opens += o;
+    return { date, visitors: v, opens: o, newVisitors: n, cumulativeVisitors: cum,
+             devices: { mobile: Math.round(o * .86), desktop: Math.round(o * .1), 'large screen': o - Math.round(o * .86) - Math.round(o * .1) } };
+  });
+  const hours = [2,1,0,0,0,1,6,14,22,18,15,17,24,20,16,19,31,48,76,118,142,121,64,21];
+  return { ok:true, generatedAt:new Date().toISOString(), today:'2026-10-15',
+    uniqueVisitors:cum, totalOpens:opens, sessions:opens, returningVisitors:Math.round(cum*.58), engagedSessions:Math.round(opens*.66),
+    todayVisitors:204, todayOpens:days[11].opens, todayNew:days[11].newVisitors,
+    peakDay:days[11], peakHour:20, days, hours,
+    sources:[{name:'wa',count:Math.round(cum*.74)},{name:'direct',count:Math.round(cum*.16)},{name:'qr',count:Math.round(cum*.1)}],
+    devices:[{name:'mobile',count:Math.round(cum*.9)},{name:'desktop',count:Math.round(cum*.08)},{name:'large screen',count:cum-Math.round(cum*.9)-Math.round(cum*.08)}],
+    deviceVisits:[{name:'mobile',count:Math.round(opens*.86)},{name:'desktop',count:Math.round(opens*.1)},{name:'large screen',count:opens-Math.round(opens*.86)-Math.round(opens*.1)}],
+    events:[], hub:{total:0,byType:[]} };
+}
+
+load();
+setInterval(load, REFRESH_MS);
+</script>
+</body>
+</html>
