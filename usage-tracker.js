@@ -1,8 +1,8 @@
-/* usage-tracker.js — Navratri 2026 dashboard usage beacon (v6)
+/* usage-tracker.js — Navratri 2026 dashboard usage beacon (v7)
  *
  * SETUP: paste your Apps Script /exec URL below (the same one the dashboard uses).
  * Include once in index.html, just before </body>:
- *   <script src="usage-tracker.js?v=6"></script>  (raise the number each time you upload a new version)
+ *   <script src="usage-tracker.js?v=7"></script>  (raise the number each time you upload a new version)
  *
  * What counts as a visit:
  *   - every page load or refresh
@@ -94,5 +94,8 @@
     hiddenAt = 0;
   });
 
-  if (document.body) startVisit(); else document.addEventListener('DOMContentLoaded', startVisit);
+  // Wait a few seconds so the dashboard's own data request goes first and isn't slowed down.
+  var START_DELAY_MS = 4000;
+  function begin() { setTimeout(startVisit, START_DELAY_MS); }
+  if (document.readyState === 'complete') begin(); else window.addEventListener('load', begin);
 })();
