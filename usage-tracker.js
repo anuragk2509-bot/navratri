@@ -58,18 +58,23 @@
   function send(ev, detail) {
     if (!url) { badge('Tracker: TRACK_URL is not set in usage-tracker.js', false); return; }
     if (optedOut) { badge('Tracker: this device is opted out (open with ?notrack=0 to undo)', false); return; }
-    var target = url + (url.indexOf('?') < 0 ? '?' : '&') + new URLSearchParams({
-      view: 'ping', ev: ev, vid: vid, sid: sid, src: src, dev: dev, d: detail || '', t: Date.now()
+    // Sent exactly the way the dashboard loads its data (a script tag), so if the
+    // dashboard numbers load for someone, their visit gets logged too.
+    var cb = 'nvTrackCb_' + Date.now() + '_' + Math.floor(Math.random() * 1e6);
+    var s = document.createElement('script');
+    var timer = setTimeout(function () { cleanup(); badge('Tracker: no reply from the web app for "' + ev + '"', false); }, 15000);
+    function cleanup() { clearTimeout(timer); try { delete window[cb]; } catch (e) { window[cb] = undefined; } if (s.parentNode) s.parentNode.removeChild(s); }
+    window[cb] = function (r) {
+      cleanup();
+      if (r && r.ok) badge('Tracker: "' + ev + '" saved to row ' + r.row + ' ✓', true);
+      else if (r && r.error) badge('Tracker error: ' + r.error, false);
+      else badge('Tracker: web app answered without saving (ping lines not reached in doGet)', false);
+    };
+    s.onerror = function () { cleanup(); badge('Tracker: could not reach the web app', false); };
+    s.src = url + (url.indexOf('?') < 0 ? '?' : '&') + new URLSearchParams({
+      view: 'ping', ev: ev, vid: vid, sid: sid, src: src, dev: dev, d: detail || '', callback: cb, t: Date.now()
     }).toString();
-    // credentials:'omit' stops Google-account cookies from being sent, which is what
-    // breaks Apps Script for people signed into several Google accounts.
-    if (window.fetch) {
-      fetch(target, { mode: 'no-cors', credentials: 'omit', cache: 'no-store', keepalive: true })
-        .then(function () { badge('Tracker: "' + ev + '" logged ✓', true); })
-        .catch(function () { badge('Tracker: could not reach the web app', false); });
-    } else {
-      new Image().src = target;
-    }
+    (document.head || document.documentElement).appendChild(s);
   }
   window.nvTrack = send;
 
