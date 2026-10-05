@@ -14,7 +14,7 @@
  * Custom actions: nvTrack('venue_mode')
  */
 (function () {
-  var TRACK_URL = 'PASTE_YOUR_EXEC_URL_HERE';
+  var TRACK_URL = 'https://script.google.com/macros/s/AKfycbznidnEFfz1rEoDmekOrC_i8bl7PzlsL7uIhfycDaL9jPy50499omxzyMZ8KQB8FH0k/exec';
   var NEW_VISIT_AFTER_MIN = 30;
 
   var url = (TRACK_URL && TRACK_URL.indexOf('PASTE') !== 0) ? TRACK_URL
